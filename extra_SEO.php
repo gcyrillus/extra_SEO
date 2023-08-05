@@ -1,6 +1,6 @@
 <?php
 	/**
-		* Plugin 	MyNewsLetter
+		* Plugin 	canonique,opengraph,ld-json,....
 		* @author	Cyrille G.
 	**/
 	class extra_SEO extends plxPlugin {
@@ -38,13 +38,7 @@
 			$this->addHook('plxMotorParseArticle', 'plxMotorParseArticle');
 			$this->addHook('ThemeEndHead', 'ThemeEndHead');
 			$this->addHook('SitemapBegin', 'SitemapBegin');
-			//$this->addHook('plxShowMeta', 'plxShowMeta');
-			/*/$this->addHook('plxShowMeta', 'plxShowMeta');
-				//$this->addHook('plxShowMeta', 'plxShowMeta');
-				//$this->addHook('plxShowMeta', 'plxShowMeta');
-			//$this->addHook('plxShowMeta', 'plxShowMeta');*/
-			
-			
+		
 			
 			
 			# default var
@@ -539,10 +533,10 @@
 		}
 		
 		public function missingPNG($text,$size) {  
-			
+			/* faut-il generer des images aux réseaux sociaux et a quelle taille ? */
 		}
 		public function plxMotorDemarrageEnd() {
-			
+			/* y a un truc qu'on a oublié ? */
 		}
 		
 	}
