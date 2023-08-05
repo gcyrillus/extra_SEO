@@ -38,20 +38,14 @@
 			$this->addHook('plxMotorParseArticle', 'plxMotorParseArticle');
 			$this->addHook('ThemeEndHead', 'ThemeEndHead');
 			$this->addHook('SitemapBegin', 'SitemapBegin');
-		
-			
-			
-			# default var
-			$var['openSearchON'] 	= $this->getParam('openSearchON')		=='' ? 0		: $this->getParam('openSearchON');
-			$var['openSearchAdult'] = $this->getParam('openSearchAdult')	=='' ? 'false'	: $this->getParam('openSearchAdult');
-			$var['ldON'] 			= $this->getParam('ldON')				=='' ? 0		: $this->getParam('ldON');
-			$var['ogON'] 			= $this->getParam('ogON')				=='' ? 0		: $this->getParam('ogON');
-			$var['canON'] 			= $this->getParam('canON')				=='' ? 1		: $this->getParam('canON');
-			$var['canType'] 		= $this->getParam('canType')			=='' ? 0		: $this->getParam('canType');
-			
+				
 			
 		}
-		
+		/*
+  			* injection des scripts de metadonnées ld-json aux articles
+     			* @ author G.Cyrillus
+     			* $this->articleOG(article);
+		*/
 		public function plxMotorParseArticle() {
 			echo self::BEGIN_CODE;
 		?>
