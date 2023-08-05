@@ -68,3 +68,5 @@ outils pour aider au referencement
 <p>Cette page n'existe pas (encore?)</p>
 <h2>Aide</h2>
 <p>Il n'y a pour le moment aucune difficultés recencés à l'utilisation de ce plugin. Si vous avez difficultés d'utilisation, le forum de <a href="https://forum.pluxml.org" target="_blank" title="Forum du CMS PluXml">PluXml</a> est tout à fait adapté.</p>
+
+<p>Pour les bugs, c'est ici même :<a href="https://github.com/gcyrillus/extra_SEO/issues">issue</a>.</p>
