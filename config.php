@@ -30,14 +30,9 @@
 		$plxPlugin->setParam('ldON', $_POST['ldON'], 'numeric');
 		$plxPlugin->setParam('canON', $_POST['canON'], 'numeric');
 		$plxPlugin->setParam('canType', $_POST['canType'], 'numeric');
-        $plxPlugin->setParam('removeCat', $_POST['removeCat'], 'string');
-        $plxPlugin->setParam('removeStat', $_POST['removeStat'], 'string');
+        	$plxPlugin->setParam('removeCat', $_POST['removeCat'], 'string');
+        	$plxPlugin->setParam('removeStat', $_POST['removeStat'], 'string');
 		
-		
-		/* EXEMPLES
-			$plxPlugin->setParam('str', $_POST['str'], 'string');
-			$plxPlugin->setParam('cdata', $_POST['cdata'], 'cdata');
-		*/
 		
 		# sauvegarde données modifiées
 		$plxPlugin->saveParams();
@@ -48,7 +43,8 @@
 		if($_POST['humansTxt'] != file_get_contents(PLX_ROOT.'humans.txt')) {
 			file_put_contents(PLX_ROOT.'humans.txt',$_POST['humansTxt']);
 		}
-		
+		# pour réouvrir l'onglet d'où l'on a validé .
+		# $tab : traitement js coté visiteur
 		if($_POST['#onglet-1']) $tab='#onglet-1';
 		if($_POST['#onglet-2']) $tab='#onglet-2';
 		if($_POST['#onglet-3']) $tab='#onglet-3';
@@ -64,9 +60,9 @@
 	
 	#initialisation variables 
 	$var['removeCat'] 		= $plxPlugin->getParam('removeCat')			=='' ? ''			: $plxPlugin->getParam('removeCat');
-	$var['removeStat'] 		= $plxPlugin->getParam('removeStat')		=='' ? ''			: $plxPlugin->getParam('removeStat');
-	$var['openSearchON'] 	= $plxPlugin->getParam('openSearchON')		=='' ? 0			: $plxPlugin->getParam('openSearchON');
-	$var['openSearchAdult'] = $plxPlugin->getParam('openSearchAdult')	=='' ? 'false'		: $plxPlugin->getParam('openSearchAdult');
+	$var['removeStat'] 		= $plxPlugin->getParam('removeStat')			=='' ? ''			: $plxPlugin->getParam('removeStat');
+	$var['openSearchON'] 		= $plxPlugin->getParam('openSearchON')			=='' ? 0			: $plxPlugin->getParam('openSearchON');
+	$var['openSearchAdult'] 	= $plxPlugin->getParam('openSearchAdult')		=='' ? 'false'			: $plxPlugin->getParam('openSearchAdult');
 	$var['twON'] 			= $plxPlugin->getParam('twON')				=='' ? 0			: $plxPlugin->getParam('twON');
 	$var['ldAS'] 			= $plxPlugin->getParam('ldAS')				=='' ? ''			: $plxPlugin->getParam('ldAS');
 	$var['ldON'] 			= $plxPlugin->getParam('ldON')				=='' ? 0			: $plxPlugin->getParam('ldON');
@@ -182,6 +178,7 @@
 				<p><?php $plxPlugin->lang('L_LIST_SAMEAS')?></p>
 				<div id="listNetwork"></div>
 				<script>
+					// ajout, retire liens vers compte reseaux
 					const addAs = document.querySelector("#addAs");
 					const sameAs = document.querySelector("#sameAs");
 					const sameAsLinks = document.querySelector("#ldAS");
