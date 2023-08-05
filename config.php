@@ -129,9 +129,9 @@
 					<details><summary><?php $plxPlugin->lang('L_LIST_STATIC'); ?></summary>
 						<ul>
 							<?php
-								foreach($plxAdmin->aCats as $Cat_num => $Cat_info) {
-									if($Cat_info['active']==1) {
-										echo '<li>N°<b>'.$Cat_num.'</b> - '. $Cat_info['name'].'</li>'.PHP_EOL;    
+								foreach($plxAdmin->aStats as $stat_num => $stat_info) {
+									if($stat_info['active']==1) {
+										echo '<li>N°<b>'.$stat_num.'</b> - '. $stat_info['name'].'</li>'.PHP_EOL;    
 									}
 								}
 							?>
