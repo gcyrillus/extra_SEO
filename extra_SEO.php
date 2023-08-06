@@ -71,23 +71,26 @@
 		?>
 		
 		$plugin = $plxMotor->plxPlugins->aPlugins['<?= __CLASS__ ?>'];
-		# est ce une page numérotée
-		$pagination='';
-		$reqUri=   $plxShow->plxMotor->get;
-		preg_match('/(\/?page[0-9]+)$/', $reqUri, $matches);
-		if( $matches) $pagination =$reqUri;
-		if($plxShow->catId(true) AND intval($plxShow->catId()) =='0') echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite().$pagination.'" />'.PHP_EOL  ;
-		if($plxShow->plxMotor->mode=='categorie' AND $plxShow->catId(true) AND intval($plxShow->catId()) !='0') echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?categorie'. intval($plxShow->catId()).'/'.$plxShow->plxMotor->aCats[$plxShow->catId()]['url']).$pagination.'" />'.PHP_EOL  ;
-		if($plxShow->plxMotor->mode=='article'  AND $plxShow->plxMotor->plxRecord_arts->f('numero')) echo PHP_EOL.'	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?article' . intval($plxShow->plxMotor->plxRecord_arts->f('numero')) . '/' . $plxShow->plxMotor->plxRecord_arts->f('url')).'" />'.PHP_EOL  ;
-		if( $plxShow->plxMotor->mode=='static'  ) { 
-		echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?static'. intval($plxShow->staticId()).'/'.$plxShow->plxMotor->aStats[str_pad($plxShow->staticId(),3,0,STR_PAD_LEFT)]['url']).'" />'.PHP_EOL ;
+		
+		if ($plugin->getParam('canON') =='1') {
+			# est ce une page numérotée
+			$pagination='';
+			$reqUri=   $plxShow->plxMotor->get;
+			preg_match('/(\/?page[0-9]+)$/', $reqUri, $matches);
+			if( $matches) $pagination =$reqUri;
+			if($plxShow->catId(true) AND intval($plxShow->catId()) =='0') echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite().$pagination.'" />'.PHP_EOL  ;
+			if($plxShow->plxMotor->mode=='categorie' AND $plxShow->catId(true) AND intval($plxShow->catId()) !='0') echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?categorie'. intval($plxShow->catId()).'/'.$plxShow->plxMotor->aCats[$plxShow->catId()]['url']).$pagination.'" />'.PHP_EOL  ;
+			if($plxShow->plxMotor->mode=='article'  AND $plxShow->plxMotor->plxRecord_arts->f('numero')) echo PHP_EOL.'	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?article' . intval($plxShow->plxMotor->plxRecord_arts->f('numero')) . '/' . $plxShow->plxMotor->plxRecord_arts->f('url')).'" />'.PHP_EOL  ;
+			if( $plxShow->plxMotor->mode=='static'  ) { 
+				echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?static'. intval($plxShow->staticId()).'/'.$plxShow->plxMotor->aStats[str_pad($plxShow->staticId(),3,0,STR_PAD_LEFT)]['url']).'" />'.PHP_EOL ;
+			}
+			else{
+				# enfin on regarde si il s'agit d'un plugin qui squatte les pages statiques			
+				foreach($plxShow->plxMotor->plxPlugins->aPlugins as $plug){				
+				if($plug->getParam('url') == $plxShow->plxMotor->mode)  echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?'.$_SERVER['QUERY_STRING']).'"/>'.PHP_EOL;
+				}
+			} 
 		}
-		else{
-		# enfin on regarde si il s'agit d'un plugin qui squatte les pages statiques			
-		foreach($plxShow->plxMotor->plxPlugins->aPlugins as $plug){				
-		if($plug->getParam('url') == $plxShow->plxMotor->mode)  echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?'.$_SERVER['QUERY_STRING']).'"/>'.PHP_EOL;
-		}
-		} 
 		# meta :og du site
 		$plugin->websiteOG();
 		
@@ -98,24 +101,24 @@
 		if ($plugin->getParam('ldON') =='1') 	 $plugin->websiteLD();
 		
 		if($plxShow->plxMotor->mode =='categorie') {	
-		# ld-json : fil d'ariane categorie
-		if ($plugin->getParam('ldON') =='1') 	 $plugin->breadcrumbsLD($plxMotor->mode,$plxShow->plxMotor->aCats[$plxShow->plxMotor->cible]['name'] ) ;
+			# ld-json : fil d'ariane categorie
+			if ($plugin->getParam('ldON') =='1') 	 $plugin->breadcrumbsLD($plxMotor->mode,$plxShow->plxMotor->aCats[$plxShow->plxMotor->cible]['name'] ) ;
 		}
 		
 		if($plxShow->plxMotor->mode =='archives' ) {
-		# Pas d'indexation des pages "archives"	
-		echo PHP_EOL.'	<meta name="robots" content="noindex,nofollow">';	
-		# ld-json : fil d'ariane archives
-		if ($plugin->getParam('ldON') =='1') 	 $plugin->breadcrumbsLD($plxShow->plxMotor->mode, plxDate::formatDate($plxShow->plxMotor->cible, $plxShow->getLang(strtoupper($plxShow->plxMotor->mode)).' #month #num_year(4)') ) ;
+			# Pas d'indexation des pages "archives"	
+			echo PHP_EOL.'	<meta name="robots" content="noindex,nofollow">';	
+			# ld-json : fil d'ariane archives
+			if ($plugin->getParam('ldON') =='1') 	 $plugin->breadcrumbsLD($plxShow->plxMotor->mode, plxDate::formatDate($plxShow->plxMotor->cible, $plxShow->getLang(strtoupper($plxShow->plxMotor->mode)).' #month #num_year(4)') ) ;
 		}
 		if($plxShow->plxMotor->mode =='tags' ) {
-		# Pas d'indexation des pages "mots clés"	
-		echo PHP_EOL.'	<meta name="robots" content="noindex,nofollow">';
+			# Pas d'indexation des pages "mots clés"	
+			echo PHP_EOL.'	<meta name="robots" content="noindex,nofollow">';
 		}
 		
 		# ajoute le moteur de recherche du site au navigateur
 		if(class_exists('plxMySearch')) {
-		if($plugin->getParam('canON') == 1) echo '	<link rel="search" type="application/opensearchdescription+xml" title="'.$plxShow->plxMotor->aConf['title'].'" href="'.$plxShow->plxMotor->urlRewrite('opensearch.xml').'">';
+			if($plugin->getParam('canON') == 1) echo '	<link rel="search" type="application/opensearchdescription+xml" title="'.$plxShow->plxMotor->aConf['title'].'" href="'.$plxShow->plxMotor->urlRewrite('opensearch.xml').'">';
 		}
 		<?php
 			
