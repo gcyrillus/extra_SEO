@@ -1,5 +1,5 @@
 # extra_SEO
-outils pour aider au referencement
+Plugin d'outils d'aide au referencement pour le CMS <a href="https://pluxml.org" title="CMS Flat-File à l'XML">PluXml</a>.
 
 
 <h2>Pr&eacute;ambule</h2>
