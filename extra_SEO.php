@@ -117,8 +117,8 @@
 		}
 		
 		# ajoute le moteur de recherche du site au navigateur
-		if(class_exists('plxMySearch')) {
-			if($plugin->getParam('canON') == 1) echo '	<link rel="search" type="application/opensearchdescription+xml" title="'.$plxShow->plxMotor->aConf['title'].'" href="'.$plxShow->plxMotor->urlRewrite('opensearch.xml').'">';
+		if(class_exists('plxMySearch') && $plxMotor->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get') {
+			if($plugin->getParam('openSearchON') == 1) echo '	<link rel="search" type="application/opensearchdescription+xml" title="'.$plxShow->plxMotor->aConf['title'].'" href="'.$plxShow->plxMotor->urlRewrite('opensearch.xml').'">';
 		}
 		<?php
 			
@@ -374,11 +374,11 @@
 			
 			$ogmetas= array(
 			'title'						=>$art['title'],
-			'description'				=>$art['meta_description'],
+			'description'					=>$art['meta_description'],
 			'type'						=>'article',
-			'article:published_time'	=> plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
-			'article:modifed_time'		=> plxDate::formatDate($art['date_update'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
-			'article:author'			=>$plxMotor->aUsers[$art['author']]['name'],
+			'article:published_time'			=> plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
+			'article:modifed_time'				=> plxDate::formatDate($art['date_update'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
+			'article:author'				=>$plxMotor->aUsers[$art['author']]['name'],
 			'image'						=>$art['thumbnail'],
 			'url'						=>$plxShow->plxMotor->urlRewrite($plxShow->plxMotor->racine).$art['url'],
 			'image:alt'					=>$art['thumbnail_title'],
