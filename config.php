@@ -86,6 +86,7 @@
 					<label for="canON" ><?php $plxPlugin->lang('L_ACTIVATE') ?>&nbsp;:</label>
 					<?php plxUtils::printSelect('canON',array('1'=>L_YES,'0'=>L_NO),$var['canON']); ?>
 				</p>
+				<!-- Mauvaise idée ?
 				<p>
 					<label for="canType" ><?php $plxPlugin->lang('L_KEEP_NATIVE') ?>&nbsp;:</label>
 					<?php plxUtils::printSelect('canType',array('1'=>L_YES,'0'=>L_NO),$var['canType']); ?>
@@ -95,6 +96,7 @@
 					
 					
 				</p>
+				-->
 			</fieldset>
 		</div>
 		<div class="onglet" data-title="sitemap"  class="<?php if($tab== '#onglet-1') echo 'active'; ?>">
