@@ -1,7 +1,9 @@
 <?php
 	/**
 		* Plugin 	canonique,opengraph,ld-json,....
-		* @author	Cyrille G.
+		* version   1.0.2    07/08/2023
+		* Licence   GNU General Public License v3.0 
+		* @author	Cyrille Griboval.
 	**/
 	class extra_SEO extends plxPlugin {
 		
@@ -38,6 +40,7 @@
 			$this->addHook('plxMotorParseArticle', 'plxMotorParseArticle');
 			$this->addHook('ThemeEndHead', 'ThemeEndHead');
 			$this->addHook('SitemapBegin', 'SitemapBegin');
+			$this->addHook('plxShowLastArtList', 'plxShowLastArtList');
 				
 			
 		}
@@ -125,6 +128,23 @@
             echo self::END_CODE;
 			
 		}
+		
+		public function plxShowLastArtList() {	
+			$plxShow  = plxShow::getInstance();
+			if($plxShow->mode() =='article' AND $plxShow->plxMotor->plxPlugins->aPlugins['extra_SEO']->getParam('exArtLinkON') == 1 ) {
+				unset($plxShow->plxMotor->plxGlob_arts->aFiles[str_pad($plxShow->artId(), 4, "0", STR_PAD_LEFT)]); $plxShow->plxMotor->plxGlob_coms->aFiles = array_diff_key($plxShow->plxMotor->plxGlob_coms->aFiles, array_filter(
+					$plxShow->plxMotor->plxGlob_coms->aFiles, 
+					function ($value, $key) use ($plxShow) {
+						return substr($value, 0, 4) === str_pad($plxShow->artId(), 4, "0", STR_PAD_LEFT);
+					}, 
+					ARRAY_FILTER_USE_BOTH)
+				);
+			}		
+		}
+		
+		
+		
+		
 		# fonctions application+ld-json
 		
 		/*
@@ -254,7 +274,7 @@
 			"@context": "https://schema.org",
 			"@type": "WebSite",
 			"name": "'.plxUtils::strCheck($plxShow->plxMotor->aConf['title']).'",
-			"description": "'.plxUtils::strCheck($plxShow->plxMotor->aConf['description']).'",
+			"description": "'.str_replace('"', "'",plxUtils::strCheck($plxShow->plxMotor->aConf['description'])).'",
 			"url": "'.$plxShow->plxMotor->racine .'",
 			'.$sameAs.$potAction.'							
 			}
@@ -289,8 +309,8 @@
 			}
 			
 			if ($plxShow->plxMotor->mode == 'article') {
-                $meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
-                if (!empty($meta_content)) { 
+                	$meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
+                	if (!empty($meta_content)) { 
 					$desc= plxUtils::strCheck($meta_content); 
 				}
 				else {
@@ -314,7 +334,7 @@
 			}
 			$og='';
 			$og.='	<meta property="og:title" content="'.plxUtils::strCheck($plxShow->plxMotor->aConf['title']).'">'.PHP_EOL.
-			'	<meta property="og:description" content="'. $desc.'">'.PHP_EOL.
+			'	<meta property="og:description" content="'. str_replace('"', "'",$desc).'">'.PHP_EOL.
 			'	<meta property="og:type" content="website">'.PHP_EOL.
 			$image;
 			
@@ -374,11 +394,11 @@
 			
 			$ogmetas= array(
 			'title'						=>$art['title'],
-			'description'					=>$art['meta_description'],
+			'description'				=>$art['meta_description'],
 			'type'						=>'article',
-			'article:published_time'			=> plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
-			'article:modifed_time'				=> plxDate::formatDate($art['date_update'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
-			'article:author'				=>$plxMotor->aUsers[$art['author']]['name'],
+			'article:published_time'	=> plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
+			'article:modifed_time'		=> plxDate::formatDate($art['date_update'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
+			'article:author'			=>$plxMotor->aUsers[$art['author']]['name'],
 			'image'						=>$art['thumbnail'],
 			'url'						=>$plxShow->plxMotor->urlRewrite($plxShow->plxMotor->racine).$art['url'],
 			'image:alt'					=>$art['thumbnail_title'],
@@ -396,7 +416,7 @@
 				}
 				if($meta == 'image' and $v !='') $v= $plxShow->plxMotor->urlRewrite($plxShow->plxMotor->racine).$v; // on en fait une URL absolue
 				# enfin on n'affiche pas de meta vide
-				if($v !='') $og.= '	<meta property="og:'.$meta.'" content="'.$v. '">'.	PHP_EOL;
+				if($v !='') $og.= '	<meta property="og:'.$meta.'" content="'.str_replace('"', "'",$v). '">'.	PHP_EOL;
 			}
 			
 			return $og;
@@ -463,8 +483,8 @@
 			}
 			
 			if ($plxShow->plxMotor->mode == 'article') {
-                $meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
-                if (!empty($meta_content)){  
+                	$meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
+                	if (!empty($meta_content)){  
 					$desc= plxUtils::strCheck($meta_content); 
 				}
 				else{
@@ -493,7 +513,7 @@
 			$twC='';
 			foreach($tweetArray as $metatw => $v) {
 				# on n'affiche pas de meta vide
-				if($v !='') $twC.= '	<meta name="twitter:'.$metatw.'" content="'.$v. '">'.	PHP_EOL;
+				if($v !='') $twC.= '	<meta name="twitter:'.$metatw.'" content="'.str_replace('"', "'",$v). '">'.	PHP_EOL;
 			}
 			echo $twC;		
 		}
