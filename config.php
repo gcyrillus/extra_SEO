@@ -32,7 +32,9 @@
 		$plxPlugin->setParam('canType', $_POST['canType'], 'numeric');
         	$plxPlugin->setParam('removeCat', $_POST['removeCat'], 'string');
         	$plxPlugin->setParam('removeStat', $_POST['removeStat'], 'string');
+		$plxPlugin->setParam('exArtLinkON', $_POST['exArtLinkON'], 'numeric');
 		
+
 		
 		# sauvegarde données modifiées
 		$plxPlugin->saveParams();
@@ -43,15 +45,18 @@
 		if($_POST['humansTxt'] != file_get_contents(PLX_ROOT.'humans.txt')) {
 			file_put_contents(PLX_ROOT.'humans.txt',$_POST['humansTxt']);
 		}
-		# pour réouvrir l'onglet d'où l'on a validé .
-		# $tab : traitement js coté visiteur
-		if($_POST['#onglet-1']) $tab='#onglet-1';
-		if($_POST['#onglet-2']) $tab='#onglet-2';
-		if($_POST['#onglet-3']) $tab='#onglet-3';
-		if($_POST['#onglet-4']) $tab='#onglet-4';
-		if($_POST['#onglet-5']) $tab='#onglet-5';
-		if($_POST['#onglet-6']) $tab='#onglet-6';
-		if($_POST['#onglet-7']) $tab='#onglet-7';
+		
+		if($_POST['#onglet-1'])  $tab='#onglet-1';
+		if($_POST['#onglet-2'])  $tab='#onglet-2';
+		if($_POST['#onglet-3'])  $tab='#onglet-3';
+		if($_POST['#onglet-4'])  $tab='#onglet-4';
+		if($_POST['#onglet-5'])  $tab='#onglet-5';
+		if($_POST['#onglet-6'])  $tab='#onglet-6';
+		if($_POST['#onglet-7'])  $tab='#onglet-7';
+		if($_POST['#onglet-8'])  $tab='#onglet-8';
+		if($_POST['#onglet-9'])  $tab='#onglet-9';
+		if($_POST['#onglet-10']) $tab='#onglet-10';
+		# add any more need
 		
 		# renvoi sur la page aprés traitement
 		header('Location: parametres_plugin.php?p='.basename(__DIR__).$tab);
@@ -69,7 +74,7 @@
 	$var['ogON'] 			= $plxPlugin->getParam('ogON')				=='' ? 0			: $plxPlugin->getParam('ogON');
 	$var['canON'] 			= $plxPlugin->getParam('canON')				=='' ? 1			: $plxPlugin->getParam('canON');
 	$var['canType'] 		= $plxPlugin->getParam('canType')			=='' ? 0			: $plxPlugin->getParam('canType');
-	
+	$var['exArtLinkON'] 		= $plxPlugin->getParam('exArtLinkON')			=='' ? 0			: $plxPlugin->getParam('exArtLinkON');
 	
 	
 ?>
@@ -86,8 +91,7 @@
 					<label for="canON" ><?php $plxPlugin->lang('L_ACTIVATE') ?>&nbsp;:</label>
 					<?php plxUtils::printSelect('canON',array('1'=>L_YES,'0'=>L_NO),$var['canON']); ?>
 				</p>
-				<!-- Mauvaise idée ?
-				<p>
+				<!--<p>
 					<label for="canType" ><?php $plxPlugin->lang('L_KEEP_NATIVE') ?>&nbsp;:</label>
 					<?php plxUtils::printSelect('canType',array('1'=>L_YES,'0'=>L_NO),$var['canType']); ?>
 				</p>
@@ -95,8 +99,7 @@
 					<?php $plxPlugin->lang('L_INFO_REWRITE') ?>
 					
 					
-				</p>
-				-->
+				</p>-->
 			</fieldset>
 		</div>
 		<div class="onglet" data-title="sitemap"  class="<?php if($tab== '#onglet-1') echo 'active'; ?>">
@@ -180,7 +183,6 @@
 				<p><?php $plxPlugin->lang('L_LIST_SAMEAS')?></p>
 				<div id="listNetwork"></div>
 				<script>
-					// ajout, retire liens vers compte reseaux
 					const addAs = document.querySelector("#addAs");
 					const sameAs = document.querySelector("#sameAs");
 					const sameAsLinks = document.querySelector("#ldAS");
@@ -297,10 +299,33 @@
 					<div class="warning" style="display:flex;gap:0.15rem;"><b class="help">?</b> :<a href="https://fr.wikipedia.org/wiki/Humans.txt" target="_blank">wikipedia</a>.</div>
 				</fieldset>
 			</div>
+		<div class="onglet" data-title="Extra">
+			<h4>page Article</h4>
+			<fieldset>
+				<legend><?php $plxPlugin->lang('L_EXCLUDE_SELF_LINKS') ?></legend>
+				<p>
+					<label for="exArtLinkON" ><?php $plxPlugin->lang('L_EXCLUDE') ?>&nbsp;:</label>
+					<?php plxUtils::printSelect('exArtLinkON',array('1'=>L_YES,'0'=>L_NO),$var['exArtLinkON']); ?>
+				</p>
+			</fieldset>
+		</div>
 			<p class="in-action-bar">
 				<?php echo plxToken::getTokenPostMethod() ?>
 				<input type="submit" name="submit" value="<?php $plxPlugin->lang('L_SAVE') ?>" />
 			</p>
 	</form>
 	<script src="<?= PLX_ROOT.'plugins/'.basename(__DIR__)?>/js/onglets.js"></script>
+		<script>
+		let txtB = document.querySelector('[name="humansTxt"]');
+		let txtC = document.querySelector('[name="robotsTxt"]');
+		let contentB = txtB.innerHTML;	
+		let contentC = txtC.innerHTML;	
+		function escapeRegex(string) {	
+			return string.replace(/[\\]/g, '\\$&');
+		} 
+		(function() {
+				txtB.innerHTML=  escapeRegex(contentB);  
+				txtC.innerHTML=  escapeRegex(contentC);  
+		}())	
+	</script>
 	<link rel="stylesheet" href="<?= PLX_ROOT.'plugins/'.basename(__DIR__)?>/css/admin.css" media="screen">
