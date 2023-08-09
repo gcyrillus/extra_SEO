@@ -30,11 +30,16 @@
 		$plxPlugin->setParam('ldON', $_POST['ldON'], 'numeric');
 		$plxPlugin->setParam('canON', $_POST['canON'], 'numeric');
 		$plxPlugin->setParam('canType', $_POST['canType'], 'numeric');
-        	$plxPlugin->setParam('removeCat', $_POST['removeCat'], 'string');
-        	$plxPlugin->setParam('removeStat', $_POST['removeStat'], 'string');
+        $plxPlugin->setParam('removeCat', $_POST['removeCat'], 'string');
+        $plxPlugin->setParam('removeStat', $_POST['removeStat'], 'string');
 		$plxPlugin->setParam('exArtLinkON', $_POST['exArtLinkON'], 'numeric');
+		$plxPlugin->setParam('prevNextON', $_POST['prevNextON'], 'numeric');
 		
-
+		
+		/* EXEMPLES
+			$plxPlugin->setParam('str', $_POST['str'], 'string');
+			$plxPlugin->setParam('cdata', $_POST['cdata'], 'cdata');
+		*/
 		
 		# sauvegarde données modifiées
 		$plxPlugin->saveParams();
@@ -65,16 +70,17 @@
 	
 	#initialisation variables 
 	$var['removeCat'] 		= $plxPlugin->getParam('removeCat')			=='' ? ''			: $plxPlugin->getParam('removeCat');
-	$var['removeStat'] 		= $plxPlugin->getParam('removeStat')			=='' ? ''			: $plxPlugin->getParam('removeStat');
-	$var['openSearchON'] 		= $plxPlugin->getParam('openSearchON')			=='' ? 0			: $plxPlugin->getParam('openSearchON');
-	$var['openSearchAdult'] 	= $plxPlugin->getParam('openSearchAdult')		=='' ? 'false'			: $plxPlugin->getParam('openSearchAdult');
+	$var['removeStat'] 		= $plxPlugin->getParam('removeStat')		=='' ? ''			: $plxPlugin->getParam('removeStat');
+	$var['openSearchON'] 	= $plxPlugin->getParam('openSearchON')		=='' ? 0			: $plxPlugin->getParam('openSearchON');
+	$var['openSearchAdult'] = $plxPlugin->getParam('openSearchAdult')	=='' ? 'false'		: $plxPlugin->getParam('openSearchAdult');
 	$var['twON'] 			= $plxPlugin->getParam('twON')				=='' ? 0			: $plxPlugin->getParam('twON');
 	$var['ldAS'] 			= $plxPlugin->getParam('ldAS')				=='' ? ''			: $plxPlugin->getParam('ldAS');
 	$var['ldON'] 			= $plxPlugin->getParam('ldON')				=='' ? 0			: $plxPlugin->getParam('ldON');
 	$var['ogON'] 			= $plxPlugin->getParam('ogON')				=='' ? 0			: $plxPlugin->getParam('ogON');
 	$var['canON'] 			= $plxPlugin->getParam('canON')				=='' ? 1			: $plxPlugin->getParam('canON');
 	$var['canType'] 		= $plxPlugin->getParam('canType')			=='' ? 0			: $plxPlugin->getParam('canType');
-	$var['exArtLinkON'] 		= $plxPlugin->getParam('exArtLinkON')			=='' ? 0			: $plxPlugin->getParam('exArtLinkON');
+	$var['exArtLinkON'] 	= $plxPlugin->getParam('exArtLinkON')		=='' ? 0			: $plxPlugin->getParam('exArtLinkON');
+	$var['prevNextON'] 		= $plxPlugin->getParam('prevNextON')		=='' ? 0			: $plxPlugin->getParam('prevNextON');
 	
 	
 ?>
@@ -307,6 +313,13 @@
 					<label for="exArtLinkON" ><?php $plxPlugin->lang('L_EXCLUDE') ?>&nbsp;:</label>
 					<?php plxUtils::printSelect('exArtLinkON',array('1'=>L_YES,'0'=>L_NO),$var['exArtLinkON']); ?>
 				</p>
+			</fieldset>
+			<fieldset>
+			<legend><?php $plxPlugin->lang('L_LINK_PREV_NEXT') ?></legend>
+			<p>
+				<label for="prevNextON" ><?php $plxPlugin->lang('L_PRINT_PREV_NEXT') ?>&nbsp;:</label>
+				<?php plxUtils::printSelect('prevNextON',array('1'=>L_YES,'0'=>L_NO),$var['prevNextON']); ?>
+			</p>
 			</fieldset>
 		</div>
 			<p class="in-action-bar">

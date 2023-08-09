@@ -1,0 +1,23 @@
+#extra_SEO.prevNext {
+	clear:both;
+	display: flex;
+	flex-wrap: wrap;
+	margin:1em;
+	padding:1em;
+	border-radius: 1em;
+	background: #fdf1c2;
+	box-shadow: inset 0 0 10em white
+}
+#extra_SEO.prevNext a {
+	padding:0.15rem 0.5em;
+	border:solid 1px gray;
+	border-radius:5px;
+	box-shadow: -2px -2px 5px gray;
+	background: #33A5E1;
+	color:white
+}
+#extra_SEO.prevNext a[rel="next"] {
+	margin-left:auto;
+	margin-inline-start: auto;
+	box-shadow: 2px 2px 5px gray;
+}

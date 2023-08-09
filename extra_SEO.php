@@ -9,6 +9,7 @@
 		
 		
 		public $lang = '';
+		public $links ='<!--nav prevnext-->';
 		
         const BEGIN_CODE = '<?php' . PHP_EOL;
         const END_CODE = PHP_EOL . '?>';		
@@ -41,6 +42,9 @@
 			$this->addHook('ThemeEndHead', 'ThemeEndHead');
 			$this->addHook('SitemapBegin', 'SitemapBegin');
 			$this->addHook('plxShowLastArtList', 'plxShowLastArtList');
+			$this->addHook('plxMotorPreChauffageBegin','plxMotorPreChauffageBegin');
+			$this->addHook('IndexBegin','IndexBegin');
+			$this->addHook('IndexEnd','IndexEnd');
 				
 			
 		}
@@ -53,9 +57,12 @@
 			echo self::BEGIN_CODE;
 		?>
 		$plxMotor = plxMotor::getInstance();
-		if($plxMotor->mode !=='' and ($plxMotor->mode =='home' or $plxMotor->mode =='article' or $plxMotor->mode =='categorie' or $plxMotor->mode =='tags' or $plxMotor->mode =='archives')){
 		$plugin = $plxMotor->plxPlugins->aPlugins['<?= __CLASS__ ?>'];
+		
+		if($plxMotor->mode =='article' and $plugin->getParam('prevNextON') =='1') $art['content'] .=$plugin->links;	
+		if($plxMotor->mode !=='' and ($plxMotor->mode =='home' or $plxMotor->mode =='article' or $plxMotor->mode =='categorie' or $plxMotor->mode =='tags' or $plxMotor->mode =='archives')){
 		if ($art['chapo'] !='' ) {
+		
 		if ($plugin->getParam('ogON') =='1' and $plxMotor->mode =='article') $art['chapo'] .= $plugin->articleOG($art);
 		if ($plugin->getParam('ldON') =='1') 	$art['chapo'] .=   $plugin->articleLD($art);
 		}
@@ -66,6 +73,76 @@
 		}
 		<?php
             echo self::END_CODE;
+		}
+		public function IndexBegin(){
+			echo self::BEGIN_CODE;
+		?>
+		$plxShow  = plxShow::getInstance();
+		$plxMotor = plxMotor::getInstance();
+		$plugin = $plxMotor->plxPlugins->aPlugins['<?= __CLASS__ ?>'];
+		if($plxShow->plxMotor->mode =='article') {	
+		// echo str_pad($plxShow->artId(),3,'0',STR_PAD_LEFT);
+		}
+			if (/*$plugin->getParam('prevNextON') =='1' and */$plxMotor->mode =='article') {
+			//$plxShow = plxShow::getInstance();
+			$formatPrev = '<a href="#prevUrl" title="#prevTitle" rel="prev">&laquo; <span>#prevArt</span></a> ';
+			$formatNext = ' <a href="#nextUrl" title="#nextTitle" rel="next"><span>#nextArt</span> &raquo;</a>';
+			$ordre = preg_match('/asc/',$plxShow->plxMotor->tri)?'sort':'rsort';
+			$plugin->links = '';
+			
+			if( $plxShow->catId()!= "home") { // Des articles parmi les articles d'une catégorie
+				$ID_CAT = str_replace(',', "|",str_pad ($plxShow->catId(), 3, '0', STR_PAD_LEFT));
+				$aFiles = $plxShow->plxMotor->plxGlob_arts->query('/^[0-9]{4}.((?:[0-9]|home|,)*(?:' .$ID_CAT. ')(?:[0-9]|home|,)*).[0-9]{3}.[0-9]{12}.[a-z0-9-]+.xml$/','art',$ordre,0,false,'before');
+			} else { // Des articles parmi tous les articles ? ou on affiche rien ?
+				$aFiles = $plxShow->plxMotor->plxGlob_arts->query('/[0-9]{4}.[home|0-9,]*.[0-9]{3}.[0-9]{12}.[a-z0-9-]+.xml$/','art',$ordre,0,false,'before');
+			}
+
+			if(!is_array($aFiles)) @$aFiles[] = $aFiles;// php 8 tousse ici
+			arsort($aFiles);
+			$key = array_search(basename($plxShow->plxMotor->plxRecord_arts->f('filename')), $aFiles);
+			$prevUrl = $prev = isset($aFiles[$key-1])? $aFiles[$key-1] : false;
+			$nextUrl = $next = isset($aFiles[$key+1])? $aFiles[$key+1] : false;
+
+			$plxGlob_arts = clone $plxShow->plxMotor->plxGlob_arts;
+
+				if($prev AND preg_match('/([0-9]{4}).[home|0-9,]*.[0-9]{3}.[0-9]{12}.([a-z0-9-]+).xml$/',$prev,$capture))
+					$prevUrl=$plxShow->plxMotor->urlRewrite('?article'.intval($capture[1]).'/'.$capture[2]);
+					if ($prev){
+						$art = $plxShow->plxMotor->parseArticle(PLX_ROOT.$plxShow->plxMotor->aConf['racine_articles'].$prev);
+						$nextTitle = STRIP_TAGS($art['title']);
+					}
+				if($next AND preg_match('/([0-9]{4}).[home|0-9,]*.[0-9]{3}.[0-9]{12}.([a-z0-9-]+).xml$/',$next,$capture))
+					$nextUrl=$plxShow->plxMotor->urlRewrite('?article'.intval($capture[1]).'/'.$capture[2]);
+					if ($next) {
+						$art = $plxShow->plxMotor->parseArticle(PLX_ROOT.$plxShow->plxMotor->aConf['racine_articles'].$next);
+						$prevTitle = STRIP_TAGS($art['title']);
+					}
+				if($ordre=='rsort') { 
+					$dummy=$prevUrl; $prevUrl=$nextUrl; $nextUrl=$dummy; 
+				}
+				if($prevUrl) {
+					$plugin->links = str_replace('#prevUrl', $prevUrl, $formatPrev);
+					$plugin->links = str_replace('#prevTitle', $prevTitle, $plugin->links);
+					$plugin->links = str_replace('#prevArt', $plugin->getlang('L_PREV_ART'), $plugin->links);
+				}
+				if($nextUrl) {
+					$plugin->links .= str_replace('#nextUrl', $nextUrl, $formatNext);
+					$plugin->links = str_replace('#nextTitle', $nextTitle, $plugin->links);
+					$plugin->links = str_replace('#nextArt', $plugin->getlang('L_NEXT_ART'), $plugin->links);
+				}
+				//$plugin->links = $links;
+				return $plugin->links;
+		}
+		
+		<?php
+            echo self::END_CODE;		
+		}
+		public function indexEnd() {
+			echo self::BEGIN_CODE;
+		?>		
+		$output = str_replace('<!--nav prevnext-->', ob_get_clean().'<nav id="<?= __CLASS__ ?>" class="prevNext">'.$plugin->links.'</nav>', $output);
+		<?php
+            echo self::END_CODE;		
 		}
 		
 		public function ThemeEndHead() {
@@ -123,6 +200,9 @@
 		if(class_exists('plxMySearch') && $plxMotor->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get') {
 			if($plugin->getParam('openSearchON') == 1) echo '	<link rel="search" type="application/opensearchdescription+xml" title="'.$plxShow->plxMotor->aConf['title'].'" href="'.$plxShow->plxMotor->urlRewrite('opensearch.xml').'">';
 		}
+		
+			
+			/**/
 		<?php
 			
             echo self::END_CODE;
@@ -309,8 +389,8 @@
 			}
 			
 			if ($plxShow->plxMotor->mode == 'article') {
-                	$meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
-                	if (!empty($meta_content)) { 
+                $meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
+                if (!empty($meta_content)) { 
 					$desc= plxUtils::strCheck($meta_content); 
 				}
 				else {
@@ -461,6 +541,10 @@
 			# est ce une page numérotée
 			$pagination='';
 			$reqUri=   $plxShow->plxMotor->get;
+			
+			#on recupere l'url par défaut			
+			$url=$plxShow->plxMotor->urlRewrite('?'.$_SERVER['QUERY_STRING']);
+			
 			preg_match('/(\/?page[0-9]+)$/', $reqUri, $matches);
 			if( $matches) $pagination =$reqUri;
 			if($plxShow->catId(true) AND intval($plxShow->catId()) =='0') $url=$plxShow->plxMotor->urlRewrite().$pagination  ;
@@ -483,8 +567,8 @@
 			}
 			
 			if ($plxShow->plxMotor->mode == 'article') {
-                	$meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
-                	if (!empty($meta_content)){  
+                $meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
+                if (!empty($meta_content)){  
 					$desc= plxUtils::strCheck($meta_content); 
 				}
 				else{
