@@ -15,6 +15,8 @@ Plugin d'outils d'aide au referencement pour le CMS <a href="https://pluxml.org"
 <li>Les balises META 'Twitter Card'</li>
 <li>l'edition des fichiers robots.txt et humans.txt</li>
 <li>Déclarer le plugin plxMySearch comme un moteur de recherche pour le navigateur</li>
+<li>En mode article, retire de la sidebar tous les liens menant vers la page elle-même</li>
+<li>Afficher les liens des articles "précédent" et "suivant" de même catégorie</li>
 </ol>
 
 <h2>Fonctionnement et caract&eacute;ristiques</h2>
@@ -63,6 +65,9 @@ Plugin d'outils d'aide au referencement pour le CMS <a href="https://pluxml.org"
 <li>Servir les META 'Twitter Card'</li>
 <li>Editer les fichiers robots.txt et humans.txt</li>
 <li>Proposer votre propre moteur de recherche aux navigateurs.</li>
+<li>En mode article, retire de la sidebar tous les liens menant vers la page elle-même</li>
+<li>Afficher les liens des articles "précédent" et "suivant" de même catégorie</li>
+<li>...</li>
 </ol>	
 <h4>La page Administration</h4>
 <p>Cette page n'existe pas (encore?)</p>
