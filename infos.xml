@@ -2,9 +2,9 @@
 <document>
     <title>extra-SEO</title>
     <author>G.Cyrille</author>
-    <version>1.0.3</version>
-	<date>08/08/2023</date>
+    <version>1.0.4</version>
+	<date>10/08/2023</date>
     <site>https://re7net.com</site>
-    <description><![CDATA[Ajout de metadonnées dans les pages à l'attention des moteurs de recherches et réseaux sociaux. (ld-json, og, twitter, sitemap(exclure cat ou stat), eclure les liens vers l'article en cours, ajout liens article suivant pécédent, .. )]]></description>
+    <description><![CDATA[Ajout de metadonnées dans les pages à l'attention des moteurs de recherches et réseaux sociaux. (ld-json, og, twitter, sitemap(exclure cat ou stat), eclure les liens vers l'article en cours, ajout liens article suivant pécédent, redirection URL inconnues en 404 au lieu de HOME et filtrage possible.. )]]></description>
     <scope></scope>
 </document>

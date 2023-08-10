@@ -34,6 +34,8 @@
         $plxPlugin->setParam('removeStat', $_POST['removeStat'], 'string');
 		$plxPlugin->setParam('exArtLinkON', $_POST['exArtLinkON'], 'numeric');
 		$plxPlugin->setParam('prevNextON', $_POST['prevNextON'], 'numeric');
+		$plxPlugin->setParam('send404ON', $_POST['send404ON'], 'numeric');
+		$plxPlugin->setParam('cloneMode', $_POST['cloneMode'], 'string');
 		
 		
 		/* EXEMPLES
@@ -81,6 +83,8 @@
 	$var['canType'] 		= $plxPlugin->getParam('canType')			=='' ? 0			: $plxPlugin->getParam('canType');
 	$var['exArtLinkON'] 	= $plxPlugin->getParam('exArtLinkON')		=='' ? 0			: $plxPlugin->getParam('exArtLinkON');
 	$var['prevNextON'] 		= $plxPlugin->getParam('prevNextON')		=='' ? 0			: $plxPlugin->getParam('prevNextON');
+	$var['send404ON'] 		= $plxPlugin->getParam('send404ON')			=='' ? 0			: $plxPlugin->getParam('send404ON');
+	$var['cloneMode'] 		= $plxPlugin->getParam('cloneMode')			=='' ? 0			: $plxPlugin->getParam('cloneMode');
 	
 	
 ?>
@@ -301,7 +305,11 @@
 				<h4>humans.txt</h4>
 				<fieldset>
 					<legend>edition</legend>
-					<textarea name="humansTxt"style="width:100%" ><?php if(file_exists(PLX_ROOT.'humans.txt')){echo file_get_contents(PLX_ROOT.'humans.txt');}?></textarea>
+					<textarea name="humansTxt"style="width:100%" ><?php if(file_exists(PLX_ROOT.'humans.txt')){echo file_get_contents(PLX_ROOT.'humans.txt');}else{echo '  _     _   _      _   _            _         __         _     _     ____
+ +-+-+-+-+-+-+-+-+-+-+
+ |h|u|m|a|n|s|.|t|x|t|
+ +-+-+-+-+-+-+-+-+-+-+
+ ';}?></textarea>
 					<div class="warning" style="display:flex;gap:0.15rem;"><b class="help">?</b> :<a href="https://fr.wikipedia.org/wiki/Humans.txt" target="_blank">wikipedia</a>.</div>
 				</fieldset>
 			</div>
@@ -319,6 +327,19 @@
 			<p>
 				<label for="prevNextON" ><?php $plxPlugin->lang('L_PRINT_PREV_NEXT') ?>&nbsp;:</label>
 				<?php plxUtils::printSelect('prevNextON',array('1'=>L_YES,'0'=>L_NO),$var['prevNextON']); ?>
+			</p>
+			</fieldset>
+			<h4><?php $plxPlugin->lang('L_ADD_EXTRA_MODE_FILTER') ?></h4>
+			<fieldset>
+			<legend><?php $plxPlugin->lang('L_SEND_404') ?></legend>
+			<p>
+				<label for="send404ON" ><?php $plxPlugin->lang('L_SEND_UNKNOWN_T_404') ?>&nbsp;:</label>
+				<?php plxUtils::printSelect('send404ON',array('1'=>L_YES,'0'=>L_NO),$var['send404ON']); ?>
+			</p>
+			<label><?php echo $plxPlugin->lang('L_ADD_EXTRA_MODE'); ?></label> 
+	<?php
+			plxUtils::printInput('cloneMode',$plxPlugin->getParam('cloneMode'),'text','20-255');
+			?>
 			</p>
 			</fieldset>
 		</div>

@@ -1,7 +1,7 @@
 <?php
 	/**
 		* Plugin 	canonique,opengraph,ld-json,....
-		* version   1.0.3    08/08/2023
+		* version   1.0.4    10/08/2023
 		* Licence   GNU General Public License v3.0 
 		* @author	Cyrille Griboval.
 	**/
@@ -11,8 +11,8 @@
 		public $lang = '';
 		public $links ='<!--nav prevnext-->';
 		
-        	const BEGIN_CODE = '<?php' . PHP_EOL;
-        	const END_CODE = PHP_EOL . '?>';		
+        const BEGIN_CODE = '<?php' . PHP_EOL;
+        const END_CODE = PHP_EOL . '?>';		
 		
 		
 		/**
@@ -31,9 +31,12 @@
 			# appel du constructeur de la classe plxPlugin (obligatoire)
 			parent::__construct($default_lang);
 			
+			
+			
 			# droits pour accèder à la page config.php du plugin
 			$this->setConfigProfil(PROFIL_ADMIN);
-				
+			
+			
 			# déclaration des hooks
 			$this->addHook('plxMotorParseArticle', 'plxMotorParseArticle');
 			$this->addHook('ThemeEndHead', 'ThemeEndHead');
@@ -43,7 +46,21 @@
 			$this->addHook('IndexBegin','IndexBegin');
 			$this->addHook('IndexEnd','IndexEnd');
 				
+			
 		}
+		
+		
+		public function plxMotorPreChauffageBegin() {
+			if($this->getParam('send404ON') == 1) {		
+					echo self::BEGIN_CODE;
+		?>		
+				include(PLX_ROOT.'plugins/<?= basename(__DIR__) ?>/preHeat.php');
+				return true;
+		<?php
+            echo self::END_CODE;	
+			}
+        }	
+		
 		/*
   			* injection des scripts de metadonnées ld-json aux articles
      			* @ author G.Cyrillus
@@ -128,14 +145,14 @@
 		}
 		
 		<?php
-			echo self::END_CODE;		
+            echo self::END_CODE;		
 		}
 		public function indexEnd() {
 			echo self::BEGIN_CODE;
 		?>		
 		$output = str_replace('<!--nav prevnext-->', ob_get_clean().'<nav id="<?= __CLASS__ ?>" class="prevNext">'.$plugin->links.'</nav>', $output);
 		<?php
-            		echo self::END_CODE;		
+            echo self::END_CODE;		
 		}
 		
 		public function ThemeEndHead() {
@@ -194,6 +211,8 @@
 			if($plugin->getParam('openSearchON') == 1) echo '	<link rel="search" type="application/opensearchdescription+xml" title="'.$plxShow->plxMotor->aConf['title'].'" href="'.$plxShow->plxMotor->urlRewrite('opensearch.xml').'">';
 		}
 		
+			
+			/**/
 		<?php
 			
             echo self::END_CODE;
@@ -292,7 +311,7 @@
 			"@type": "ListItem",
 			"position": 2 ,
 			"name": "'. $name .'",
-			"item": "'. $plxShow->plxMotor->aConf['racine']. $_SERVER['REQUEST_URI'] .'"
+			"item": "'. $plxShow->plxMotor->aConf['racine']. ltrim($_SERVER['REQUEST_URI'],'/') .'"
 			}
 			]
 			}
@@ -372,16 +391,22 @@
 		public function websiteOG() {
 			$plxShow  = plxShow::getInstance();
 			$plxMotor = plxMotor::getInstance();
+			
+			if ($plxShow->plxMotor->mode != 'erreur') {	
 			$meta = 'description';
 			$desc='';
+			$image='';
 			
 			if ($plxShow->plxMotor->mode == 'home') {
 				$desc= plxUtils::strCheck($plxShow->plxMotor->aConf['description']);
 			}
-			
+			if(file_exists($plxShow->plxMotor->urlRewrite($plxMotor->racine). 'data/medias/logo.png')) 
+			{$image='    <meta property="og:image" content="'.$plxShow->plxMotor->urlRewrite($plxMotor->racine). 'data/medias/logo.png">'.PHP_EOL.
+				'	<meta property="og:image:alt" content="Logo '.plxUtils::strCheck($plxShow->plxMotor->aConf['title']).'">'.PHP_EOL;
+			}			
 			if ($plxShow->plxMotor->mode == 'article') {
-                	$meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
-                	if (!empty($meta_content)) { 
+                $meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
+                if (!empty($meta_content)) { 
 					$desc= plxUtils::strCheck($meta_content); 
 				}
 				else {
@@ -394,15 +419,13 @@
 				if (!empty($plxShow->plxMotor->aStats[$plxShow->plxMotor->cible]['meta_' . $meta]))  $desc= plxUtils::strCheck($plxShow->plxMotor->aStats[$plxShow->plxMotor->cible]['meta_' . $meta]);
 			}
 			if ($plxShow->plxMotor->mode == 'categorie') {
+				if($plxShow->catThumbnail('#img_url',false) !='') {
+				$image ='	<meta property="og:image" content="'. $plxShow->catThumbnail('#img_url',false).'"/>'.PHP_EOL;
+				}
 				if (!empty($plxShow->plxMotor->aCats[$plxShow->plxMotor->cible]['meta_' . $meta]))  $desc= plxUtils::strCheck($plxShow->plxMotor->aCats[$plxShow->plxMotor->cible]['meta_' . $meta]);
 			}			
-			if(file_exists($plxShow->plxMotor->urlRewrite($plxMotor->racine). 'data/medias/logo.png')) 
-			{$image='    <meta property="og:image" content="'.$plxShow->plxMotor->urlRewrite($plxMotor->racine). 'data/medias/logo.png">'.PHP_EOL.
-				'	<meta property="og:image:alt" content="Logo '.plxUtils::strCheck($plxShow->plxMotor->aConf['title']).'">'.PHP_EOL;
-			}
-			else {
-				$image='';
-			}
+
+
 			$og='';
 			$og.='	<meta property="og:title" content="'.plxUtils::strCheck($plxShow->plxMotor->aConf['title']).'">'.PHP_EOL.
 			'	<meta property="og:description" content="'. str_replace('"', "'",$desc).'">'.PHP_EOL.
@@ -415,8 +438,10 @@
 			if(defined('PLX_MYMULTILINGUE') and $plxShow->defaultLang(false) != $newMot->aConf['default_lang']) {
 				$newMot= clone $plxMotor;
 				$newMot->getConfiguration(PLX_ROOT.'data/configuration/parametres.xml');			
-				$racine.=$plxShow->defaultLang(false).'/';				
+				$racine.=$plxShow->defaultLang(false).'/';					
 			}	
+			
+			$racine=$plxShow->plxMotor->urlRewrite('?'.$_SERVER['QUERY_STRING']);
 			$og.='	<meta property="og:url" content="'.$racine. '">'.PHP_EOL.
 			'	<meta property="og:locale" content="'.$plxShow->defaultLang(false).'">'.PHP_EOL;
 			
@@ -428,6 +453,7 @@
 				}
 			}
 			echo $og;
+			}
 		}
 		/*
 			* Ajout meta Opengraph des articles
@@ -464,16 +490,16 @@
 			
 			
 			$ogmetas= array(
-			'title'				=>$art['title'],
-			'description'			=>$art['meta_description'],
-			'type'				=>'article',
+			'title'						=>$art['title'],
+			'description'				=>$art['meta_description'],
+			'type'						=>'article',
 			'article:published_time'	=> plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
 			'article:modifed_time'		=> plxDate::formatDate($art['date_update'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
-			'article:author'		=>$plxMotor->aUsers[$art['author']]['name'],
-			'image'				=>$art['thumbnail'],
-			'url'				=>$plxShow->plxMotor->urlRewrite($plxShow->plxMotor->racine).$art['url'],
-			'image:alt'			=>$art['thumbnail_title'],
-			'locale'			=>$plxShow->defaultLang(false)
+			'article:author'			=>$plxMotor->aUsers[$art['author']]['name'],
+			'image'						=>$art['thumbnail'],
+			'url'						=>$plxShow->plxMotor->urlRewrite($plxShow->plxMotor->racine).$art['url'],
+			'image:alt'					=>$art['thumbnail_title'],
+			'locale'					=>$plxShow->defaultLang(false)
 			);
 			foreach($ogmetas as $meta => $v) {
 				# y a t-il un  meta description disponible?
@@ -497,7 +523,7 @@
 		public function websiteTw() {
 			$plxShow  = plxShow::getInstance();
 			$plxMotor = plxMotor::getInstance();
-			
+			if ($plxShow->plxMotor->mode != 'erreur' and $this->getParam('twON')==1) {			
 			
 			# on recupere le titre (extrait de la fonction plxShow->pageTitle();
 			if ($plxShow->plxMotor->mode == 'home') {
@@ -552,14 +578,16 @@
 			}
 			$meta = 'description';
 			$desc='';
+			$img='';
 			
 			if ($plxShow->plxMotor->mode == 'home') {
 				$desc= plxUtils::strCheck($plxShow->plxMotor->aConf['description']);
 			}
 			
 			if ($plxShow->plxMotor->mode == 'article') {
-                	$meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
-                	if (!empty($meta_content)){  
+                $meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
+				if($plxShow->plxMotor->plxRecord_arts->f('thumbnail') !='') $img = $plxShow->plxMotor->urlRewrite().trim($plxShow->plxMotor->plxRecord_arts->f('thumbnail'));
+                if (!empty($meta_content)){  
 					$desc= plxUtils::strCheck($meta_content); 
 				}
 				else{
@@ -581,8 +609,9 @@
 			'card' 			=>'summary',
 			'title'			=> $title ,
 			'url'			=> $url,
-			'description'		=> $desc,
-			'site'			=> $site				
+			'description'	=> $desc,
+			'site'			=> $site,
+			'image'			=> $img
 			);		
 			
 			$twC='';
@@ -590,7 +619,8 @@
 				# on n'affiche pas de meta vide
 				if($v !='') $twC.= '	<meta name="twitter:'.$metatw.'" content="'.str_replace('"', "'",$v). '">'.	PHP_EOL;
 			}
-			echo $twC;		
+			echo $twC;	
+			}
 		}
 		
 		

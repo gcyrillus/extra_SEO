@@ -13,13 +13,17 @@
 	Pour les personnaliser, vous pouvez installer le plugin :<a href="https://ressources.pluxml.org/datas/plugins/MyBetterUrls.zip">MyBetterUrls.zip</a>.',
     'L_EXCLUDE'                 => 'Exclure',
     'L_EXCLUDE_SELF_LINKS'      => 'Exclure les liens vers l\'article affiché (inclus lien de commentaires)',
-    'L_EXCLUDE_SITEMAP'			=>	'Exclure du sitemap (référencement)',
-    'L_EXCLUDE_SITEMAP_HELP'    =>'<p>Indiquer la liste des numéros de catégories et pages statiques à exclure du sitemap.</p>
+    'L_SEND_404'                => 'Renvoi vers la page "erreur"',
+    'L_SEND_UNKNOWN_T_404'      => 'Rediriger toutes les urls inconnues vers la page d\'erreur',
+    'L_ADD_EXTRA_MODE_FILTER'	=> 'Ajout de filtre a inclure aux modes de PluXml',
+	'L_ADD_EXTRA_MODE'			=> 'Mode(s) a ajouter <br>séparez chaque nouveau mode avec le caractere <b style="color:tomato"> | </b>.',
+    'L_EXCLUDE_SITEMAP'			=> 'Exclure du sitemap (référencement)',
+    'L_EXCLUDE_SITEMAP_HELP'    => '<p>Indiquer la liste des numéros de catégories et pages statiques à exclure du sitemap.</p>
     <p>vous devez saisir les identifiants des catégories et pages statiques que vous souhaitez exclure séparé par un <b style="color:blue">|</b> .        
     <br>Par exemple : 001 <b style="color:blue">|</b> 003</p>
     <p>Lorsqu\'un article est présent dans une de ces catégories alors il n\'apparaitra pas dans le sitemap. Si il est présent dans plusieurs catégories et que l\'une d\'elle n\'est pas masqué alors l\'article sera visible dans le sitemap.</p>',
     'L_LINK_PREV_NEXT'          => 'Afficher le liens des articles précédent et suivant de la même catégorie(s*).',
-    'L_PRINT_PREV_NEXT'         => 'Ajouter en fin d\'article<br>les liens des articles de categorie(s*) similaire(s*)<br> "&lt;&lt;précédent | suivant&gt;&gt;"',
+    'L_PRINT_PREV_NEXT'         => 'Ajouter en fin d\'article<br>les liens "&lt;&lt;précédent | suivant&gt;&gt;"<br>des articles de même categorie(s*)',
     'L_REMOVE_SITEMAP_CATEGORY' => 'Exclure catégories N°: ',
     'L_REMOVE_SITEMAP_STATIC'	=> 'Exclure page statiques N°: ',
     'L_LIST_CATEGORY'			=> 'Liste des catégories actives',
