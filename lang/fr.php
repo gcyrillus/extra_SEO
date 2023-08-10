@@ -1,11 +1,11 @@
 <?php
     $LANG = array(
-    'L_PAGE_TITLE'				=> 'NewsLetter',
-    'L_PAGE_ADMIN_TITLE'		=> 'Administration du plugin "NewsLetter"',
+    'L_PAGE_TITLE'		=> 'extra_SEO',
+    'L_PAGE_ADMIN_TITLE'	=> 'Administration du plugin "extra_SEO"',
     'L_BACK_TO_ADMINISTRATION'  => 'Retour à l\'administration',
     
     # config.php
-    'L_CONFIG'					=> 'Page de Configuration',
+    'L_CONFIG'			=> 'Page de Configuration',
     'L_GOTO_ADMIN'              => 'Allez à la page administration',
     'L_ACTIVATE'                => 'Activer',
     'L_KEEP_NATIVE'             => 'Conserver impérativement le format natif? <br> exemple:<code style="background:silver">index.php?articleX/nom-article </code>',
@@ -16,8 +16,8 @@
     'L_SEND_404'                => 'Renvoi vers la page "erreur"',
     'L_SEND_UNKNOWN_T_404'      => 'Rediriger toutes les urls inconnues vers la page d\'erreur',
     'L_ADD_EXTRA_MODE_FILTER'	=> 'Ajout de filtre a inclure aux modes de PluXml',
-	'L_ADD_EXTRA_MODE'			=> 'Mode(s) a ajouter <br>séparez chaque nouveau mode avec le caractere <b style="color:tomato"> | </b>.',
-    'L_EXCLUDE_SITEMAP'			=> 'Exclure du sitemap (référencement)',
+    'L_ADD_EXTRA_MODE'		=> 'Mode(s) a ajouter <br>séparez chaque nouveau mode avec le caractere <b style="color:tomato"> | </b>.',
+    'L_EXCLUDE_SITEMAP'		=> 'Exclure du sitemap (référencement)',
     'L_EXCLUDE_SITEMAP_HELP'    => '<p>Indiquer la liste des numéros de catégories et pages statiques à exclure du sitemap.</p>
     <p>vous devez saisir les identifiants des catégories et pages statiques que vous souhaitez exclure séparé par un <b style="color:blue">|</b> .        
     <br>Par exemple : 001 <b style="color:blue">|</b> 003</p>
@@ -26,12 +26,12 @@
     'L_PRINT_PREV_NEXT'         => 'Ajouter en fin d\'article<br>les liens "&lt;&lt;précédent | suivant&gt;&gt;"<br>des articles de même categorie(s*)',
     'L_REMOVE_SITEMAP_CATEGORY' => 'Exclure catégories N°: ',
     'L_REMOVE_SITEMAP_STATIC'	=> 'Exclure page statiques N°: ',
-    'L_LIST_CATEGORY'			=> 'Liste des catégories actives',
-    'L_LIST_STATIC'				=> 'Liste des pages statiques actives',
+    'L_LIST_CATEGORY'		=> 'Liste des catégories actives',
+    'L_LIST_STATIC'		=> 'Liste des pages statiques actives',
     'L_PREVIEW_OPENSEARCH'      => 'Aperçu du fichier: opensearch.xml',
     'L_ADULT_CONTENT'           => 'Contenu pour Adulte',
-    'L_LANG_UNAVAILABLE'		=> 'Langue non disponible : %s',
-    'L_MAIN'					=> 'Général',
+    'L_LANG_UNAVAILABLE'	=> 'Langue non disponible : %s',
+    'L_MAIN'			=> 'Général',
     'L_SEND'                    => ' Envoyer',
     'L_COMPOSITION'             => 'Composition',
     'L_SITE_LOGO'               => 'Logo du site',
@@ -41,7 +41,7 @@
     'L_ACCOUNT'                 => 'Compte:',
     'L_ADD_SAMEAS'              => 'Compte réseau social',
     'L_LIST_SAMEAS'             => 'reseau(x) enregistré(s)',
-    'L_SAVE'					=> 'Enregistrer',
+    'L_SAVE'			=> 'Enregistrer',
     
     # Admin
     'L_ADMIN'                   => 'Administration',
@@ -51,7 +51,7 @@
     'L_CONFIG_INFOS'            => 'Infos de configuration',
     'L_COMMIT_CHANGE'           => 'Valider les modifications',
     'L_CANCEL_ALL'              => 'Annuler tout',
-    'L_CANCEL'					=> ' ANNULER.',
+    'L_CANCEL'			=> ' ANNULER.',
     
     # Front
     'L_PREV_ART'                => 'Article précédent',
