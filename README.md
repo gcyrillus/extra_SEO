@@ -1,6 +1,15 @@
 # extra_SEO
 Plugin d'outils d'aide au referencement pour le CMS <a href="https://pluxml.org" title="CMS Flat-File à l'XML">PluXml</a>.
 
+<h1>Aide</h1>
+<h2>Installation</h2>
+<p>extraire l'archive dans le repertoire <code>plugins</code> de votre PluXml et renommer ce repertoir en <code>extra_SEO</code>.</p>
+<h2>Mise à jour</h2>
+<p>Copier les fichiers de la nouvelle version dans le repertoire du plugin pour les remplacer.</p>
+<p>Réengistrer la configuration pour finaliser votre mise à jour</p>
+<hr>
+
+<h1>Présentation</h1>
 
 <h2>Pr&eacute;ambule</h2>
 <p>Ce plugin tente de regrouper plusieurs approches d'insertions de metadonnées utilent au réferencement en général, chaque option est configurable independament.</p>
