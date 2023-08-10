@@ -11,6 +11,8 @@
     'L_KEEP_NATIVE'             => 'Conserver impérativement le format natif? <br> exemple:<code style="background:silver">index.php?articleX/nom-article </code>',
     'L_INFO_REWRITE'            => 'l\'URL-rewriting activé transforme vos URLs de cette façon <code style="background:silver">/articleX/nom-article </code><br>
 	Pour les personnaliser, vous pouvez installer le plugin :<a href="https://ressources.pluxml.org/datas/plugins/MyBetterUrls.zip">MyBetterUrls.zip</a>.',
+    'L_EXCLUDE'                 => 'Exclure',
+    'L_EXCLUDE_SELF_LINKS'      => 'Exclure les liens vers l\'article affiché (inclus lien de commentaires)',
     'L_EXCLUDE_SITEMAP'			=>	'Exclure du sitemap (référencement)',
     'L_EXCLUDE_SITEMAP_HELP'    =>'<p>Indiquer la liste des numéros de catégories et pages statiques à exclure du sitemap.</p>
     <p>vous devez saisir les identifiants des catégories et pages statiques que vous souhaitez exclure séparé par un <b style="color:blue">|</b> .        
