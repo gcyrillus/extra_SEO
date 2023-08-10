@@ -11,8 +11,8 @@
 		public $lang = '';
 		public $links ='<!--nav prevnext-->';
 		
-        const BEGIN_CODE = '<?php' . PHP_EOL;
-        const END_CODE = PHP_EOL . '?>';		
+        	const BEGIN_CODE = '<?php' . PHP_EOL;
+        	const END_CODE = PHP_EOL . '?>';		
 		
 		
 		/**
@@ -31,12 +31,9 @@
 			# appel du constructeur de la classe plxPlugin (obligatoire)
 			parent::__construct($default_lang);
 			
-			
-			
 			# droits pour accèder à la page config.php du plugin
 			$this->setConfigProfil(PROFIL_ADMIN);
-			
-			
+				
 			# déclaration des hooks
 			$this->addHook('plxMotorParseArticle', 'plxMotorParseArticle');
 			$this->addHook('ThemeEndHead', 'ThemeEndHead');
@@ -46,7 +43,6 @@
 			$this->addHook('IndexBegin','IndexBegin');
 			$this->addHook('IndexEnd','IndexEnd');
 				
-			
 		}
 		/*
   			* injection des scripts de metadonnées ld-json aux articles
@@ -81,10 +77,8 @@
 		$plxMotor = plxMotor::getInstance();
 		$plugin = $plxMotor->plxPlugins->aPlugins['<?= __CLASS__ ?>'];
 		if($plxShow->plxMotor->mode =='article') {	
-		// echo str_pad($plxShow->artId(),3,'0',STR_PAD_LEFT);
 		}
-			if (/*$plugin->getParam('prevNextON') =='1' and */$plxMotor->mode =='article') {
-			//$plxShow = plxShow::getInstance();
+			if ($plugin->getParam('prevNextON') =='1' and $plxMotor->mode =='article') {
 			$formatPrev = '<a href="#prevUrl" title="#prevTitle" rel="prev">&laquo; <span>#prevArt</span></a> ';
 			$formatNext = ' <a href="#nextUrl" title="#nextTitle" rel="next"><span>#nextArt</span> &raquo;</a>';
 			$ordre = preg_match('/asc/',$plxShow->plxMotor->tri)?'sort':'rsort';
@@ -130,19 +124,18 @@
 					$plugin->links = str_replace('#nextTitle', $nextTitle, $plugin->links);
 					$plugin->links = str_replace('#nextArt', $plugin->getlang('L_NEXT_ART'), $plugin->links);
 				}
-				//$plugin->links = $links;
 				return $plugin->links;
 		}
 		
 		<?php
-            echo self::END_CODE;		
+			echo self::END_CODE;		
 		}
 		public function indexEnd() {
 			echo self::BEGIN_CODE;
 		?>		
 		$output = str_replace('<!--nav prevnext-->', ob_get_clean().'<nav id="<?= __CLASS__ ?>" class="prevNext">'.$plugin->links.'</nav>', $output);
 		<?php
-            echo self::END_CODE;		
+            		echo self::END_CODE;		
 		}
 		
 		public function ThemeEndHead() {
@@ -201,8 +194,6 @@
 			if($plugin->getParam('openSearchON') == 1) echo '	<link rel="search" type="application/opensearchdescription+xml" title="'.$plxShow->plxMotor->aConf['title'].'" href="'.$plxShow->plxMotor->urlRewrite('opensearch.xml').'">';
 		}
 		
-			
-			/**/
 		<?php
 			
             echo self::END_CODE;
@@ -389,8 +380,8 @@
 			}
 			
 			if ($plxShow->plxMotor->mode == 'article') {
-                $meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
-                if (!empty($meta_content)) { 
+                	$meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
+                	if (!empty($meta_content)) { 
 					$desc= plxUtils::strCheck($meta_content); 
 				}
 				else {
@@ -473,16 +464,16 @@
 			
 			
 			$ogmetas= array(
-			'title'						=>$art['title'],
-			'description'				=>$art['meta_description'],
-			'type'						=>'article',
+			'title'				=>$art['title'],
+			'description'			=>$art['meta_description'],
+			'type'				=>'article',
 			'article:published_time'	=> plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
 			'article:modifed_time'		=> plxDate::formatDate($art['date_update'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
-			'article:author'			=>$plxMotor->aUsers[$art['author']]['name'],
-			'image'						=>$art['thumbnail'],
-			'url'						=>$plxShow->plxMotor->urlRewrite($plxShow->plxMotor->racine).$art['url'],
-			'image:alt'					=>$art['thumbnail_title'],
-			'locale'					=>$plxShow->defaultLang(false)
+			'article:author'		=>$plxMotor->aUsers[$art['author']]['name'],
+			'image'				=>$art['thumbnail'],
+			'url'				=>$plxShow->plxMotor->urlRewrite($plxShow->plxMotor->racine).$art['url'],
+			'image:alt'			=>$art['thumbnail_title'],
+			'locale'			=>$plxShow->defaultLang(false)
 			);
 			foreach($ogmetas as $meta => $v) {
 				# y a t-il un  meta description disponible?
@@ -567,8 +558,8 @@
 			}
 			
 			if ($plxShow->plxMotor->mode == 'article') {
-                $meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
-                if (!empty($meta_content)){  
+                	$meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
+                	if (!empty($meta_content)){  
 					$desc= plxUtils::strCheck($meta_content); 
 				}
 				else{
@@ -590,7 +581,7 @@
 			'card' 			=>'summary',
 			'title'			=> $title ,
 			'url'			=> $url,
-			'description'	=> $desc,
+			'description'		=> $desc,
 			'site'			=> $site				
 			);		
 			
