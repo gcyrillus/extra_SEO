@@ -262,7 +262,7 @@
 			</fieldset>
 			</div>
 			<!-- opensearch si plugin plxMySearch actif configuré en $_GET -->
-			<?php	if (class_exists('plxMySearch')&& $plxAdmin->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get') { 
+			<?php	if (@class_exists('plxMySearch')&& $plxAdmin->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get' && $plxAdmin->aConf['urlrewriting']) { 
 				$plxMotor = plxMotor::getInstance();
 				$mysearch =  $plxAdmin->plxPlugins->aPlugins['plxMySearch'];
 			?>
@@ -276,16 +276,16 @@
 						if(!file_exists(PLX_ROOT.'opensearch.xml')) {
 							touch(PLX_ROOT.'opensearch.xml');
 							$xml= '<?xml version="1.0" encoding="UTF-8"?>
-							<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-							<ShortName>'.$plxMotor->aConf['title'].'</ShortName>
-							<Description>'. $plxMotor->aConf['description'].'</Description>
-							<Image type="image/x-icon">favicon.ico</Image>
-							<Image type="image/png" height="32" width="32">'. $plxMotor->urlRewrite('plugins/plxMySearch/icon.png') .'</Image>
-							<AdultContent>'.$var['openSearchAdult'] .'</AdultContent>
-							<Language>'.$plxMotor->aConf['default_lang'].'</Language>
-							<InputEncoding>UTF-8</InputEncoding>
-							<Url type="text/html" method="get" template="'.$plxMotor->urlRewrite('?'.$mysearch->getParam('url')).'?searchfield={searchTerms}"/>
-							</OpenSearchDescription>';
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>'.$plxMotor->aConf['title'].'</ShortName>
+  <Description>'. $plxMotor->aConf['description'].'</Description>
+  <Image type="image/x-icon">favicon.ico</Image>
+  <Image type="image/png" height="32" width="32">'. $plxMotor->urlRewrite('plugins/plxMySearch/icon.png') .'</Image>
+  <AdultContent>'.$var['openSearchAdult'] .'</AdultContent>
+  <Language>'.$plxMotor->aConf['default_lang'].'</Language>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Url type="text/html" method="get" template="'.$plxMotor->urlRewrite('?'.$mysearch->getParam('url')).'?searchfield={searchTerms}"/>
+</OpenSearchDescription>';
 							file_put_contents(PLX_ROOT.'opensearch.xml',$xml);
 							
 						}?>			

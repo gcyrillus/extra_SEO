@@ -207,7 +207,7 @@
 		}
 		
 		# ajoute le moteur de recherche du site au navigateur
-		if(class_exists('plxMySearch') && $plxMotor->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get') {
+		if(@class_exists('plxMySearch') && $plxMotor->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get' && $plxShow->plxMotor->aConf['urlrewriting']) {
 			if($plugin->getParam('openSearchON') == 1) echo '	<link rel="search" type="application/opensearchdescription+xml" title="'.$plxShow->plxMotor->aConf['title'].'" href="'.$plxShow->plxMotor->urlRewrite('opensearch.xml').'">';
 		}
 		
@@ -627,7 +627,7 @@
 		
 		# exclusion dans le sitemap  d'une ou plusieurs categorie et page statique
 		public function SitemapBegin() {
-			$removeCat = trim($this->getParam('removeCat'));
+			$removeCat  = trim($this->getParam('removeCat' ));
 			$removeStat = trim($this->getParam('removeStat'));
 			echo self::BEGIN_CODE;
 		?>
