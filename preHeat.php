@@ -127,7 +127,5 @@
 			if(!file_exists(PLX_ROOT . $this->aConf['racine_themes'] . $filename)) {
 			$this->error404(L_ERR_FILE_NOTFOUND . ' ( <i>' . $filename . '</i> )');
 			}
-			echo $this->mode;
 			# Hook plugins
 			eval($this->plxPlugins->callHook('plxMotorPreChauffageEnd'));
-		?>		
