@@ -12,7 +12,9 @@ Plugin d'outils d'aide au referencement pour le CMS <a href="https://pluxml.org"
 <h1>Présentation</h1>
 
 <h2>Pr&eacute;ambule</h2>
-<p>Ce plugin tente de regrouper plusieurs approches d'insertions de metadonnées utilent au réferencement en général, chaque option est configurable independament.</p>
+<p>Ce plugin tente de regrouper plusieurs approches d'insertions de metadonnées et autres configurations utilent au réferencement en général, chaque option est configurable independament.</p>
+<p>Plusieurs de ces options sont aussi déjà possibles depuis differents plugins ou script à intégrer aux thèmes. Certaines portions de ce plugin peuvent reprendre en partie et amelioré le code d'autres plugins ou scripts.</p>
+<p>La liste des options s'allongera et se modifiera au fil des MAJ (aprés identifications de bugs, incoherences, fonctionnalités manquantes ou à modifiées, etc.)</p>
 
 <h3>Lesquelles</h3>
 <p></p>
