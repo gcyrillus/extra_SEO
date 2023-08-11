@@ -61,7 +61,7 @@ Plugin d'outils d'aide au referencement pour le CMS <a href="https://pluxml.org"
 <p>Si l'option opensearch est active, alors le visiteur peut ajouter votre page de recherche à la liste des moteurs de recherches de son navigateur</p>
 <p>Si le visiteur est un robot indexeur , comme google ou facebook, alors ils trouvera les données utiles à l'indexation de votre site.</p>
 <p>Vous pouvez exclure les liens dans la sidebar pointant sur la page en cours</p>
-<p>Vous pouvez afficher les liens article: précédent et suivant, au pied de l'article.</p>
+<p>Vous pouvez afficher les liens: article précédent et suivant, au pied de l'article.</p>
 
 <h3>cot&eacute; administration</h3>
 
