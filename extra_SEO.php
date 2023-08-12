@@ -338,7 +338,7 @@
 			$plxShow  = plxShow::getInstance();
 			$plxMotor = plxMotor::getInstance();
 			if(isset($plxShow->plxMotor->plxPlugins->aPlugins['plxMySearch']) && $plxShow->plxMotor->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get' && $plxShow->plxMotor->aConf['urlrewriting'])  {
-				$potAction = PHP_EOL.'			"potentialAction": {
+				$potAction = ','.PHP_EOL.'			"potentialAction": {
 				"@type": "SearchAction",
 				"target": "'. $plxShow->plxMotor->racine .$plxShow->plxMotor->plxPlugins->aPlugins['plxMySearch']->getParam('url').'?searchfield={searchfield}' .'",
 				"query-input": "required name=searchfield"
@@ -347,7 +347,7 @@
 			else {$potAction='';}
 			if($this->getParam('ldAS') &&  trim($this->getParam('ldAS')) !='') {
 				$datas=explode(" , ", $this->getParam('ldAS'));
-				$sameAs ='"sameAs": [';
+				$sameAs =','.PHP_EOL.'			"sameAs": [';
 				$i=0;
 				foreach($datas as $k => $v){
 					if($i>0) $sameAs .=',';
@@ -365,8 +365,7 @@
 			"@type": "WebSite",
 			"name": "'.plxUtils::strCheck($plxShow->plxMotor->aConf['title']).'",
 			"description": "'.str_replace('"', "'",plxUtils::strCheck($plxShow->plxMotor->aConf['description'])).'",
-			"url": "'.$plxShow->plxMotor->racine .'",
-			'.$sameAs.$potAction.'							
+			"url": "'.$plxShow->plxMotor->racine .'"'.$sameAs.$potAction.'							
 			}
 			</script>
 			';	
