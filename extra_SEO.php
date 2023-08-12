@@ -354,7 +354,7 @@
 					$sameAs .= '"'.$v.'"';
 					$i++;				
 				}
-				$sameAs .='],';
+				$sameAs .=']';
 			}
 			else {$sameAs='';}
 			$websiteLD='';
