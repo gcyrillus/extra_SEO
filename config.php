@@ -237,7 +237,7 @@
 					showList();
 				</script>
 			</fieldset>
-			<div class="warning"><a href="https://validator.schema.org/" target="_blank">Validator schema.org</a></div>
+			<div class="warning"><a href="https://validator.schema.org/" target="_blank">Validator schema.org</a> - <a href="https://fr.wikipedia.org/wiki/JSON-LD">Wikipedia</a> -<a href="https://support.google.com/webmasters/answer/3069489?hl=fr">Google Support</a></div>
 		</div>		
 		<div class="onglet" data-title="twitter card">
 			<h4>meta twitter card</h4>
