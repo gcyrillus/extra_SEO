@@ -221,6 +221,7 @@
 		
 		public function plxShowLastArtList() {	
 			$plxShow  = plxShow::getInstance();
+			$this->ldOn='0'; // ne pas ajouter de metadonnées dans cette fonction
 			if($plxShow->mode() =='article' AND $plxShow->plxMotor->plxPlugins->aPlugins['extra_SEO']->getParam('exArtLinkON') == 1 ) {
 				unset($plxShow->plxMotor->plxGlob_arts->aFiles[str_pad($plxShow->artId(), 4, "0", STR_PAD_LEFT)]); $plxShow->plxMotor->plxGlob_coms->aFiles = array_diff_key($plxShow->plxMotor->plxGlob_coms->aFiles, array_filter(
 					$plxShow->plxMotor->plxGlob_coms->aFiles, 
@@ -245,6 +246,7 @@
 			
 		*/
 		public function articleLD($art){
+		  if($this->ldOn !='0') {// pas d'inclusion dans fonction lastartList()
 			include_once(PLX_CORE.'lib/class.plx.show.php');	
 			$plxShow  = plxShow::getInstance();
 			$plxMotor = plxMotor::getInstance();
@@ -284,6 +286,7 @@
 			}
 			</script>'.PHP_EOL;
 			return $ld;
+		  }
 		}
 		/*
 			* Ajout metadonnées des fils d'Ariane
