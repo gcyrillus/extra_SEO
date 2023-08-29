@@ -10,6 +10,7 @@
 		
 		public $lang = '';
 		public $links ='<!--nav prevnext-->';
+		public $ldOn = '1';
 		
         const BEGIN_CODE = '<?php' . PHP_EOL;
         const END_CODE = PHP_EOL . '?>';		
