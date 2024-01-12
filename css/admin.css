@@ -6,6 +6,7 @@
 }
 .art-nav.center {
  display: flex;
+ flex-wrap:wrap;
  gap: 1em;
  border-bottom: solid crimson;
  justify-content:center;

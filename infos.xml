@@ -2,9 +2,19 @@
 <document>
     <title>extra-SEO</title>
     <author>G.Cyrille</author>
-    <version>1.0.4</version>
-	<date>10/08/2023</date>
+    <version>1.0.6</version>
+	<date>12/01/2024</date>
     <site>https://re7net.com</site>
-    <description><![CDATA[Ajout de metadonnées dans les pages à l'attention des moteurs de recherches et réseaux sociaux. (ld-json, og, twitter, sitemap(exclure cat ou stat), eclure les liens vers l'article en cours, ajout liens article suivant pécédent, redirection URL inconnues en 404 au lieu de HOME et filtrage possible.. )]]></description>
+    <description><![CDATA[ outils aidant aux partages et réferencement:
+        Ajout de metadonnées dans les pages à l'attention des moteurs de recherches et réseaux sociaux. 
+        * ld-json, og, twitter, 
+        * lien canoniques (désactivé pour la version 5.9.X , fonctionnalité à faire evoluer pour la cohérence des liens générés)
+        * filtre dans le sitemap : exclusion possible d'une ou plusieurs pages statique ou de catégorie, 
+        * exclure de la page les liens vers l'article en cours (linkant sur les commentaires ou dans derniers articles), 
+        * ajout liens article suivant pécédent en pied de chaque article, 
+        * redirection URL inconnues en 404 au lieu de HOME et filtrage possible.. 
+        * edition des fichiers humans.txt, robots.txt et .htaccess
+        
+        Compatible avec la version 5.7 de Pluxml]]></description>
     <scope></scope>
 </document>

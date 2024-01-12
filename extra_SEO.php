@@ -1,7 +1,7 @@
 <?php
 	/**
 		* Plugin 	canonique,opengraph,ld-json,....
-		* version   1.0.4    10/08/2023
+		* version   1.0.5    11/01/2024
 		* Licence   GNU General Public License v3.0 
 		* @author	Cyrille Griboval.
 	**/
@@ -10,7 +10,6 @@
 		
 		public $lang = '';
 		public $links ='<!--nav prevnext-->';
-		public $ldOn = '1';
 		
         const BEGIN_CODE = '<?php' . PHP_EOL;
         const END_CODE = PHP_EOL . '?>';		
@@ -170,7 +169,7 @@
 			preg_match('/(\/?page[0-9]+)$/', $reqUri, $matches);
 			if( $matches) $pagination =$reqUri;
 			if($plxShow->catId(true) AND intval($plxShow->catId()) =='0') echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite().$pagination.'" />'.PHP_EOL  ;
-			if($plxShow->plxMotor->mode=='categorie' AND $plxShow->catId(true) AND intval($plxShow->catId()) !='0') echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?categorie'. intval($plxShow->catId()).'/'.$plxShow->plxMotor->aCats[$plxShow->catId()]['url']).$pagination.'" />'.PHP_EOL  ;
+			if($plxShow->plxMotor->mode=='categorie' AND $plxShow->catId(true) AND intval($plxShow->catId()) !='0') echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?categorie'. intval($plxShow->catId()).'/'.$plxShow->plxMotor->aCats[str_pad($plxShow->catId(),3,0,STR_PAD_LEFT)]['url']).$pagination.'" />'.PHP_EOL  ;
 			if($plxShow->plxMotor->mode=='article'  AND $plxShow->plxMotor->plxRecord_arts->f('numero')) echo PHP_EOL.'	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?article' . intval($plxShow->plxMotor->plxRecord_arts->f('numero')) . '/' . $plxShow->plxMotor->plxRecord_arts->f('url')).'" />'.PHP_EOL  ;
 			if( $plxShow->plxMotor->mode=='static'  ) { 
 				echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?static'. intval($plxShow->staticId()).'/'.$plxShow->plxMotor->aStats[str_pad($plxShow->staticId(),3,0,STR_PAD_LEFT)]['url']).'" />'.PHP_EOL ;
@@ -204,7 +203,7 @@
 		}
 		if($plxShow->plxMotor->mode =='tags' ) {
 			# Pas d'indexation des pages "mots clés"	
-			echo PHP_EOL.'	<meta name="robots" content="noindex,nofollow">';
+			// echo PHP_EOL.'	<meta name="robots" content="noindex,nofollow">';
 		}
 		
 		# ajoute le moteur de recherche du site au navigateur
@@ -222,7 +221,6 @@
 		
 		public function plxShowLastArtList() {	
 			$plxShow  = plxShow::getInstance();
-			$this->ldOn='0'; // ne pas ajouter de metadonnées dans cette fonction
 			if($plxShow->mode() =='article' AND $plxShow->plxMotor->plxPlugins->aPlugins['extra_SEO']->getParam('exArtLinkON') == 1 ) {
 				unset($plxShow->plxMotor->plxGlob_arts->aFiles[str_pad($plxShow->artId(), 4, "0", STR_PAD_LEFT)]); $plxShow->plxMotor->plxGlob_coms->aFiles = array_diff_key($plxShow->plxMotor->plxGlob_coms->aFiles, array_filter(
 					$plxShow->plxMotor->plxGlob_coms->aFiles, 
@@ -247,7 +245,6 @@
 			
 		*/
 		public function articleLD($art){
-		  if($this->ldOn !='0') {// pas d'inclusion dans fonction lastartList()
 			include_once(PLX_CORE.'lib/class.plx.show.php');	
 			$plxShow  = plxShow::getInstance();
 			$plxMotor = plxMotor::getInstance();
@@ -287,7 +284,6 @@
 			}
 			</script>'.PHP_EOL;
 			return $ld;
-		  }
 		}
 		/*
 			* Ajout metadonnées des fils d'Ariane
@@ -301,6 +297,22 @@
 			$plxShow  = plxShow::getInstance();
 			$plxMotor = plxMotor::getInstance();
 			$breadCrummbsld='';
+			$capture ='';
+			$uri = ltrim($_SERVER['REQUEST_URI'],'/');
+			$subPage='';
+			if (preg_match('/(\/?page[0-9]+)$/',$uri, $capture)) {
+				$pageUri=$uri;
+                $uri = str_replace($capture[1], '', $uri);
+				
+				$subPage=',{															
+			"@type": "ListItem",
+			"position": 3 ,
+			"name": "'. $name .'",
+			"item": "'. $plxShow->plxMotor->aConf['racine']. $pageUri .'"
+			}
+				
+				';
+            }
 			$breadCrummbsld.='
 			<script type="application/ld+json">
 			{
@@ -315,8 +327,8 @@
 			"@type": "ListItem",
 			"position": 2 ,
 			"name": "'. $name .'",
-			"item": "'. $plxShow->plxMotor->aConf['racine']. ltrim($_SERVER['REQUEST_URI'],'/') .'"
-			}
+			"item": "'. $plxShow->plxMotor->aConf['racine']. $uri .'"
+			}'.$subPage.'
 			]
 			}
 			</script>
@@ -422,7 +434,7 @@
 				if (!empty($plxShow->plxMotor->aStats[$plxShow->plxMotor->cible]['meta_' . $meta]))  $desc= plxUtils::strCheck($plxShow->plxMotor->aStats[$plxShow->plxMotor->cible]['meta_' . $meta]);
 			}
 			if ($plxShow->plxMotor->mode == 'categorie') {
-				if($plxShow->catThumbnail('#img_url',false) !='') {
+				if(version_compare(PLX_VERSION, '5.8.0', ">=")  && $plxShow->catThumbnail('#img_url',false) !=''  ) {
 				$image ='	<meta property="og:image" content="'. $plxShow->catThumbnail('#img_url',false).'"/>'.PHP_EOL;
 				}
 				if (!empty($plxShow->plxMotor->aCats[$plxShow->plxMotor->cible]['meta_' . $meta]))  $desc= plxUtils::strCheck($plxShow->plxMotor->aCats[$plxShow->plxMotor->cible]['meta_' . $meta]);
@@ -430,7 +442,7 @@
 
 
 			$og='';
-			$og.='	<meta property="og:title" content="'.plxUtils::strCheck($plxShow->plxMotor->aConf['title']).'">'.PHP_EOL.
+			$og.='	<meta property="og:site_name" content="'.plxUtils::strCheck($plxShow->plxMotor->aConf['title']).'">'.PHP_EOL.
 			'	<meta property="og:description" content="'. str_replace('"', "'",$desc).'">'.PHP_EOL.
 			'	<meta property="og:type" content="website">'.PHP_EOL.
 			$image;
@@ -564,11 +576,17 @@
 			
 			#on recupere l'url par défaut			
 			$url=$plxShow->plxMotor->urlRewrite('?'.$_SERVER['QUERY_STRING']);
-			
+
 			preg_match('/(\/?page[0-9]+)$/', $reqUri, $matches);
 			if( $matches) $pagination =$reqUri;
 			if($plxShow->catId(true) AND intval($plxShow->catId()) =='0') $url=$plxShow->plxMotor->urlRewrite().$pagination  ;
-			if($plxShow->plxMotor->mode=='categorie' AND $plxShow->catId(true) AND intval($plxShow->catId()) !='0') $url=$plxShow->plxMotor->urlRewrite('?categorie'. intval($plxShow->catId()).'/'.$plxShow->plxMotor->aCats[$plxShow->catId()]['url']).$pagination;
+			if($plxShow->plxMotor->mode=='categorie' 
+			AND $plxShow->catId(true) 
+			AND intval($plxShow->catId()) !='0'
+			) $url=$plxShow->plxMotor->urlRewrite('?categorie'.
+			intval($plxShow->catId()).
+			'/'.$plxShow->plxMotor->aCats[str_pad($plxShow->catId(),3,0,STR_PAD_LEFT)]['url']).
+			$pagination;
 			if($plxShow->plxMotor->mode=='article'  AND $plxShow->plxMotor->plxRecord_arts->f('numero')) $url=$plxShow->plxMotor->urlRewrite('?article' . intval($plxShow->plxMotor->plxRecord_arts->f('numero')) . '/' . $plxShow->plxMotor->plxRecord_arts->f('url'));
 			if( $plxShow->plxMotor->mode=='static'  ) { 
 				$url=$plxShow->plxMotor->urlRewrite('?static'. intval($plxShow->staticId()).'/'.$plxShow->plxMotor->aStats[str_pad($plxShow->staticId(),3,0,STR_PAD_LEFT)]['url']);

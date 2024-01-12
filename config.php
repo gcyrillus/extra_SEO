@@ -51,6 +51,9 @@
 		}	
 		if($_POST['humansTxt'] != file_get_contents(PLX_ROOT.'humans.txt')) {
 			file_put_contents(PLX_ROOT.'humans.txt',$_POST['humansTxt']);
+		}	
+		if($_POST['htaccess'] != file_get_contents(PLX_ROOT.'.htaccess')) {
+			file_put_contents(PLX_ROOT.'.htaccess',$_POST['.htaccess']);
 		}
 		
 		if($_POST['#onglet-1'])  $tab='#onglet-1';
@@ -93,6 +96,7 @@
 <h3><?php $plxPlugin->lang('L_CONFIG') ?></h3>
 <div id="onglets">
 	<form  id="form_<?= basename(__DIR__) ?>" action="parametres_plugin.php?p=<?= basename(__DIR__) ?>" method="post" class="<?= basename(__DIR__) ?>">
+	<?php  if(version_compare(PLX_VERSION, '5.8.9', "<=")) { ?>
 		<div class="onglet" data-title="URL canonique" class="<?php if($tab== '#onglet-0') echo 'active'; ?>">
 			<h4>canonical</h4>
 			<fieldset>
@@ -112,6 +116,7 @@
 				</p>-->
 			</fieldset>
 		</div>
+		<?php } ?>
 		<div class="onglet" data-title="sitemap"  class="<?php if($tab== '#onglet-1') echo 'active'; ?>">
 			<h4>exclusion du sitemap</h4>
 			<fieldset>
@@ -153,9 +158,6 @@
 						</ul>
 					</details>
 				</div>
-				<details><summary>preview sitemap</summary>
-					<iframe src="<?=PLX_ROOT?>sitemap.php" style="width:100%;min-height:15em"></iframe>
-				</details>
 			</fieldset>			
 			<div style="font-size:0.8em;max-width:60vw;margin:0.5em auto;display:flex;gap:1rem;align-items:center;" class="warning"><b class="help" style="padding:0 0.5em;">?</b><div><?php $plxPlugin->lang('L_EXCLUDE_SITEMAP_HELP'); ?></div>
 			</div>
@@ -342,6 +344,31 @@
 			?>
 			</p>
 			</fieldset>
+		</div>
+		<div class="onglet" data-title=".htaccess" >
+			<h4>HTACCESS</h4>
+			<fieldset>
+					<legend>edition</legend>
+					<textarea name="htaccess" style="width:100%" ><?php if(file_exists(PLX_ROOT.'.htaccess')){echo file_get_contents(PLX_ROOT.'.htaccess');}
+					else{echo '# aucun fichier .htaccess decouvert à la racine de votre site! ';}?></textarea>
+			</fieldset>
+			<div class="warning blue">
+			<p>Les mises en cache de vos fichiers dans le navigateur de vos visiteurs peuvent améliorer le temps de chargement des pages de votre site.
+			Voici un exemple proposé par <u><a href="https://leblogduwebmaster.fr/" target="_blank">Christophe</a></u></p>
+			<pre style="margin:0.5em;border:inset blue;padding:0.25em;color:darkgreen;background:white;"><code>&lt;IfModule mod_expires.c&gt;
+    ExpiresActive on
+    ExpiresDefault                                      "access plus 1 month"
+  # CSS
+    ExpiresByType text/css                              "access plus 1 year"
+  # HTML
+    ExpiresByType text/html                             "access plus 0 seconds"
+  # JavaScript
+    ExpiresByType application/javascript                "access plus 1 year"
+    ExpiresByType application/x-javascript              "access plus 1 year"
+    ExpiresByType text/javascript                       "access plus 1 year"
+&lt;/IfModule&gt;</code></pre>
+				
+			</div>
 		</div>
 			<p class="in-action-bar">
 				<?php echo plxToken::getTokenPostMethod() ?>
