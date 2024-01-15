@@ -167,7 +167,7 @@
 			$pagination='';
 			$reqUri=   $plxShow->plxMotor->get;
 			preg_match('/(\/?page[0-9]+)$/', $reqUri, $matches);
-			if( $matches) $pagination =$reqUri;
+			if( $matches) $pagination = $matches[0];
 			if($plxShow->catId(true) AND intval($plxShow->catId()) =='0') echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite().$pagination.'" />'.PHP_EOL  ;
 			if($plxShow->plxMotor->mode=='categorie' AND $plxShow->catId(true) AND intval($plxShow->catId()) !='0') echo '	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?categorie'. intval($plxShow->catId()).'/'.$plxShow->plxMotor->aCats[str_pad($plxShow->catId(),3,0,STR_PAD_LEFT)]['url']).$pagination.'" />'.PHP_EOL  ;
 			if($plxShow->plxMotor->mode=='article'  AND $plxShow->plxMotor->plxRecord_arts->f('numero')) echo PHP_EOL.'	<link rel="canonical" href="'.$plxShow->plxMotor->urlRewrite('?article' . intval($plxShow->plxMotor->plxRecord_arts->f('numero')) . '/' . $plxShow->plxMotor->plxRecord_arts->f('url')).'" />'.PHP_EOL  ;
@@ -578,7 +578,7 @@
 			$url=$plxShow->plxMotor->urlRewrite('?'.$_SERVER['QUERY_STRING']);
 
 			preg_match('/(\/?page[0-9]+)$/', $reqUri, $matches);
-			if( $matches) $pagination =$reqUri;
+			if( $matches) $pagination =$matches[0];
 			if($plxShow->catId(true) AND intval($plxShow->catId()) =='0') $url=$plxShow->plxMotor->urlRewrite().$pagination  ;
 			if($plxShow->plxMotor->mode=='categorie' 
 			AND $plxShow->catId(true) 
