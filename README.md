@@ -19,12 +19,12 @@ Plugin d'outils d'aide au referencement pour le CMS <a href="https://pluxml.org"
 <h3>Lesquelles</h3>
 <p></p>
 <ol>
-<li>URL canonique (desactivation pour les version 5.9.X en dev)</li>
+<li>URL canonique</li>
 <li>En complément au Sitemap du CMS PluXml (option d'exclusion de certaines catégories ou page statiques)</li>
 <li>Données structurées pour des résultats enrichis</li>
 <li>Les balises META OpenGraph</li>
 <li>Les balises META 'Twitter Card'</li>
-<li>l'edition des fichiers robots.txt et humans.txt et .htaccess</li>
+<li>l'edition des fichiers robots.txt et humans.txt</li>
 <li>Déclarer le plugin plxMySearch comme un moteur de recherche pour le navigateur</li>
 <li>En mode article, retire de la sidebar tous les liens menant vers la page elle-même</li>
 <li>Afficher les liens des articles "précédent" et "suivant" de même catégorie</li>

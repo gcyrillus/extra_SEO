@@ -130,4 +130,3 @@
 			echo $this->mode;
 			# Hook plugins
 			eval($this->plxPlugins->callHook('plxMotorPreChauffageEnd'));
-		?>		

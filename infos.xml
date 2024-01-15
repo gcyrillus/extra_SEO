@@ -2,19 +2,19 @@
 <document>
     <title>extra-SEO</title>
     <author>G.Cyrille</author>
-    <version>1.0.6</version>
+    <version>2.0</version>
 	<date>12/01/2024</date>
     <site>https://re7net.com</site>
-    <description><![CDATA[ outils aidant aux partages et réferencement:
-        Ajout de metadonnées dans les pages à l'attention des moteurs de recherches et réseaux sociaux. 
-        * ld-json, og, twitter, 
-        * lien canoniques (désactivé pour la version 5.9.X , fonctionnalité à faire evoluer pour la cohérence des liens générés)
-        * filtre dans le sitemap : exclusion possible d'une ou plusieurs pages statique ou de catégorie, 
-        * exclure de la page les liens vers l'article en cours (linkant sur les commentaires ou dans derniers articles), 
-        * ajout liens article suivant pécédent en pied de chaque article, 
-        * redirection URL inconnues en 404 au lieu de HOME et filtrage possible.. 
-        * edition des fichiers humans.txt, robots.txt et .htaccess
-        
-        Compatible avec la version 5.7 de Pluxml]]></description>
+    <description><![CDATA[Outils aidant aux partages et réferencement:
+        <br>Ajout de metadonnées dans les pages à l'attention des moteurs de recherches et réseaux sociaux.
+        <br>* ld-json, og, twitter, 
+        <br>* lien canoniques (désactivé pour la version 5.9.X ) 
+        <br>* filtre dans le sitemap : exclusion possible d'une ou plusieurs pages statique ou de catégorie, 
+        <br>* exclure de la page les liens vers l'article en cours (linkant sur les commentaires ou dans derniers articles), 
+        <br>* ajout liens article suivant pécédent en pied de chaque article, 
+        <br>* redirection URL inconnues en 404 au lieu de HOME et filtrage possible.. 
+        <br>* edition des fichiers humans.txt, robots.txt et .htaccess 
+        <br>Compatible avec la version 5.7 de Pluxml
+        <br>PluXml 5.9.X : URL canonique et du sitemap basculent automatiquement sur les url réécrites si urlRwriting activé.]]></description>
     <scope></scope>
 </document>

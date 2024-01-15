@@ -53,7 +53,7 @@
 			file_put_contents(PLX_ROOT.'humans.txt',$_POST['humansTxt']);
 		}	
 		if($_POST['htaccess'] != file_get_contents(PLX_ROOT.'.htaccess')) {
-			file_put_contents(PLX_ROOT.'.htaccess',$_POST['.htaccess']);
+			file_put_contents(PLX_ROOT.'.htaccess',$_POST['htaccess']);
 		}
 		
 		if($_POST['#onglet-1'])  $tab='#onglet-1';
