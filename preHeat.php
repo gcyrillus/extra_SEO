@@ -88,7 +88,8 @@
 		foreach($this->aTags as $idart => $tag) {
 		if($tag['date']<=$datetime) {
 		$tags = array_map("trim", explode(',', $tag['tags']));
-		$tagUrls = array_map(array('plxUtils', 'urlify'), $tags);
+			if(version_compare(PLX_VERSION, '5.8.0', ">="))$tagUrls = array_map(array('plxUtils', 'urlify'), $tags);
+			else $tagUrls = array_map(array('plxUtils', 'title2url'), $tags);
 		if(in_array($this->cible, $tagUrls)) {
 			if(!isset($ids[$idart])) $ids[$idart] = $idart;
 			if(!isset($this->cibleName)) {
