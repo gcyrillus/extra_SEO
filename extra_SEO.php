@@ -683,7 +683,7 @@
 		if(in_array($k, $excludeStat)) unset($plxMotor->aStats[$k]);
 		}
 		}
-		include(PLX_PLUGINS.'extra_SEO/inc.sitemapBegin.php');
+		if(version_compare(PLX_VERSION, '5.9.0', ">=")) include(PLX_PLUGINS.'extra_SEO/inc.sitemapBegin.php');
 		
 		<?php
 			echo self::END_CODE;
