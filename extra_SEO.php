@@ -158,8 +158,8 @@
 		public function indexEnd() {
 			echo self::BEGIN_CODE;
 		?>	
-		if(version_compare(PLX_VERSION, '5.9.0', ">=")) $output = str_replace($plxShow->pageUrl(), ob_get_clean().$plxShow->plxMotor->urlRewrite( str_replace($plxShow->plxMotor->racine, '',$plxShow->pageUrl())), $output);
 		$output = str_replace('<!--nav prevnext-->', ob_get_clean().'<nav id="<?= __CLASS__ ?>" class="prevNext">'.$plugin->links.'</nav>', $output);
+		if(version_compare(PLX_VERSION, '5.8.9', ">")) $output = str_replace($plxShow->pageUrl(), ob_get_clean().$plxShow->plxMotor->urlRewrite( str_replace($plxShow->plxMotor->racine, '',$plxShow->pageUrl())), $output);
 		<?php
             echo self::END_CODE;		
 		}
