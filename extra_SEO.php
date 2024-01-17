@@ -1,8 +1,8 @@
 <?php
 	/**
 		* Plugin 	canonique,opengraph,ld-json,....
-		* version   2.0	12/01/2024
-		* Licence   GNU General Public License v3.0 
+		* version   	2.0.1	17/01/2024
+		* Licence   	GNU General Public License v3.0 
 		* @author	Cyrille Griboval.
 	**/
 	
