@@ -280,8 +280,8 @@
 				$ld.='"image": "'.$plxShow->plxMotor->urlRewrite(trim($art['thumbnail'])).'",
 				';
 			}
-			$ld.= '"datePublished": "'.plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00+#time').'",
-			"dateModified": "'.plxDate::formatDate($art['date_update'], '#num_year(4)-#num_month-#num_dayT#hour:#minute:00+#time') .'",
+			$ld.= '"datePublished": "'.plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00Z').'",
+			"dateModified": "'.plxDate::formatDate($art['date_update'], '#num_year(4)-#num_month-#num_dayT#hour:#minute:00Z') .'",
 			"author": {
 			"@type": "Person",
 			"name": "'. $plxMotor->aUsers[$art['author']]['name'].'"
@@ -521,8 +521,8 @@
 			'title'						=>$art['title'],
 			'description'				=>$art['meta_description'],
 			'type'						=>'article',
-			'article:published_time'	=> plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
-			'article:modifed_time'		=> plxDate::formatDate($art['date_update'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00-#time'),
+			'article:published_time'	=> plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00Z'),
+			'article:modifed_time'		=> plxDate::formatDate($art['date_update'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00Z'),
 			'article:author'			=>$plxMotor->aUsers[$art['author']]['name'],
 			'image'						=>$art['thumbnail'],
 			'url'						=>$plxShow->plxMotor->urlRewrite($plxShow->plxMotor->racine).$art['url'],
