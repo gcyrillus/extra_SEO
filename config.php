@@ -1,5 +1,4 @@
-<?php if(!defined('PLX_ROOT')) exit; ?>
-<?php
+<?php if(!defined('PLX_ROOT')) exit; 
 	
 	# Control du token du formulaire
 	plxToken::validateFormToken($_POST);
@@ -20,24 +19,37 @@
 	
 	# si maj
 	if(!empty($_POST)) {
+		
+		if(isset($_POST['#onglet-1']))  $tab='#onglet-1';
+		if(isset($_POST['#onglet-2']))  $tab='#onglet-2';
+		if(isset($_POST['#onglet-3']))  $tab='#onglet-3';
+		if(isset($_POST['#onglet-4']))  $tab='#onglet-4';
+		if(isset($_POST['#onglet-5']))  $tab='#onglet-5';
+		if(isset($_POST['#onglet-6']))  $tab='#onglet-6';
+		if(isset($_POST['#onglet-7']))  $tab='#onglet-7';
+		if(isset($_POST['#onglet-8']))  $tab='#onglet-8';
+		if(isset($_POST['#onglet-9']))  $tab='#onglet-9';
+		if(isset($_POST['#onglet-10'])) $tab='#onglet-10';
+		# add any more if needed
+		
 		if(!file_exists(PLX_ROOT.'robots.txt')) touch(PLX_ROOT.'robots.txt');
 		if(!file_exists(PLX_ROOT.'humans.txt')) touch(PLX_ROOT.'humans.txt');
 		if (class_exists('plxMySearch')&& $plxAdmin->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get' && $plxAdmin->aConf['urlrewriting']) { 
-				$plxMotor = plxMotor::getInstance();
-				$mysearch =  $plxAdmin->plxPlugins->aPlugins['plxMySearch'];
-		$plxPlugin->setParam('openSearchAdult', $_POST['openSearchAdult'], 'string');
-		$plxPlugin->setParam('openSearchON', $_POST['openSearchON'], 'numeric');
+			$plxMotor = plxMotor::getInstance();
+			$mysearch =  $plxAdmin->plxPlugins->aPlugins['plxMySearch'];
+			$plxPlugin->setParam('openSearchAdult', $_POST['openSearchAdult'], 'string');
+			$plxPlugin->setParam('openSearchON', $_POST['openSearchON'], 'numeric');
 		}
 		$plxPlugin->setParam('ogON', $_POST['ogON'], 'numeric');
 		$plxPlugin->setParam('twON', $_POST['twON'], 'numeric');
 		$plxPlugin->setParam('ldAS', $_POST['ldAS'], 'string');
 		$plxPlugin->setParam('ldON', $_POST['ldON'], 'numeric');
-			if(version_compare(PLX_VERSION, '5.8.9', "<=")) { 
-		$plxPlugin->setParam('canON', $_POST['canON'], 'numeric');
-		$plxPlugin->setParam('canType', $_POST['canType'], 'numeric');
-			}
-        $plxPlugin->setParam('removeCat', $_POST['removeCat'], 'string');
-        $plxPlugin->setParam('removeStat', $_POST['removeStat'], 'string');
+		if(version_compare(PLX_VERSION, '5.8.9', "<=")) { 
+			$plxPlugin->setParam('canON', $_POST['canON'], 'numeric');
+			$plxPlugin->setParam('canType', $_POST['canType'], 'numeric');
+		}
+		$plxPlugin->setParam('removeCat', $_POST['removeCat'], 'string');
+		$plxPlugin->setParam('removeStat', $_POST['removeStat'], 'string');
 		$plxPlugin->setParam('exArtLinkON', $_POST['exArtLinkON'], 'numeric');
 		$plxPlugin->setParam('prevNextON', $_POST['prevNextON'], 'numeric');
 		$plxPlugin->setParam('send404ON', $_POST['send404ON'], 'numeric');
@@ -62,38 +74,26 @@
 			file_put_contents(PLX_ROOT.'.htaccess',$_POST['htaccess']);
 		}
 		
-		if(isset($_POST['#onglet-1']))  $tab='#onglet-1';
-		if(isset($_POST['#onglet-2']))  $tab='#onglet-2';
-		if(isset($_POST['#onglet-3']))  $tab='#onglet-3';
-		if(isset($_POST['#onglet-4']))  $tab='#onglet-4';
-		if(isset($_POST['#onglet-5']))  $tab='#onglet-5';
-		if(isset($_POST['#onglet-6']))  $tab='#onglet-6';
-		if(isset($_POST['#onglet-7']))  $tab='#onglet-7';
-		if(isset($_POST['#onglet-8']))  $tab='#onglet-8';
-		if(isset($_POST['#onglet-9']))  $tab='#onglet-9';
-		if(isset($_POST['#onglet-10'])) $tab='#onglet-10';
-		# add any more need
-		
 		# renvoi sur la page aprés traitement
 		header('Location: parametres_plugin.php?p='.basename(__DIR__).$tab);
 		exit;
 	}
 	
 	#initialisation variables 
-	$var['removeCat'] 		= $plxPlugin->getParam('removeCat')			=='' ? ''			: $plxPlugin->getParam('removeCat');
+	$var['removeCat'] 		= $plxPlugin->getParam('removeCat')		=='' ? ''			: $plxPlugin->getParam('removeCat');
 	$var['removeStat'] 		= $plxPlugin->getParam('removeStat')		=='' ? ''			: $plxPlugin->getParam('removeStat');
-	$var['openSearchON'] 	= $plxPlugin->getParam('openSearchON')		=='' ? 0			: $plxPlugin->getParam('openSearchON');
-	$var['openSearchAdult'] = $plxPlugin->getParam('openSearchAdult')	=='' ? 'false'		: $plxPlugin->getParam('openSearchAdult');
-	$var['twON'] 			= $plxPlugin->getParam('twON')				=='' ? 0			: $plxPlugin->getParam('twON');
-	$var['ldAS'] 			= $plxPlugin->getParam('ldAS')				=='' ? ''			: $plxPlugin->getParam('ldAS');
-	$var['ldON'] 			= $plxPlugin->getParam('ldON')				=='' ? 0			: $plxPlugin->getParam('ldON');
-	$var['ogON'] 			= $plxPlugin->getParam('ogON')				=='' ? 0			: $plxPlugin->getParam('ogON');
-	$var['canON'] 			= $plxPlugin->getParam('canON')				=='' ? 1			: $plxPlugin->getParam('canON');
-	$var['canType'] 		= $plxPlugin->getParam('canType')			=='' ? 0			: $plxPlugin->getParam('canType');
-	$var['exArtLinkON'] 	= $plxPlugin->getParam('exArtLinkON')		=='' ? 0			: $plxPlugin->getParam('exArtLinkON');
+	$var['openSearchON'] 		= $plxPlugin->getParam('openSearchON')		=='' ? 0			: $plxPlugin->getParam('openSearchON');
+	$var['openSearchAdult']		= $plxPlugin->getParam('openSearchAdult')	=='' ? 'false'			: $plxPlugin->getParam('openSearchAdult');
+	$var['twON'] 			= $plxPlugin->getParam('twON')			=='' ? 0			: $plxPlugin->getParam('twON');
+	$var['ldAS'] 			= $plxPlugin->getParam('ldAS')			=='' ? ''			: $plxPlugin->getParam('ldAS');
+	$var['ldON'] 			= $plxPlugin->getParam('ldON')			=='' ? 0			: $plxPlugin->getParam('ldON');
+	$var['ogON'] 			= $plxPlugin->getParam('ogON')			=='' ? 0			: $plxPlugin->getParam('ogON');
+	$var['canON'] 			= $plxPlugin->getParam('canON')			=='' ? 1			: $plxPlugin->getParam('canON');
+	$var['canType'] 		= $plxPlugin->getParam('canType')		=='' ? 0			: $plxPlugin->getParam('canType');
+	$var['exArtLinkON'] 		= $plxPlugin->getParam('exArtLinkON')		=='' ? 0			: $plxPlugin->getParam('exArtLinkON');
 	$var['prevNextON'] 		= $plxPlugin->getParam('prevNextON')		=='' ? 0			: $plxPlugin->getParam('prevNextON');
-	$var['send404ON'] 		= $plxPlugin->getParam('send404ON')			=='' ? 0			: $plxPlugin->getParam('send404ON');
-	$var['cloneMode'] 		= $plxPlugin->getParam('cloneMode')			=='' ? 0			: $plxPlugin->getParam('cloneMode');
+	$var['send404ON'] 		= $plxPlugin->getParam('send404ON')		=='' ? 0			: $plxPlugin->getParam('send404ON');
+	$var['cloneMode'] 		= $plxPlugin->getParam('cloneMode')		=='' ? 0			: $plxPlugin->getParam('cloneMode');
 	
 	
 ?>
