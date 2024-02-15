@@ -22,14 +22,20 @@
 	if(!empty($_POST)) {
 		if(!file_exists(PLX_ROOT.'robots.txt')) touch(PLX_ROOT.'robots.txt');
 		if(!file_exists(PLX_ROOT.'humans.txt')) touch(PLX_ROOT.'humans.txt');
+		if (class_exists('plxMySearch')&& $plxAdmin->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get' && $plxAdmin->aConf['urlrewriting']) { 
+				$plxMotor = plxMotor::getInstance();
+				$mysearch =  $plxAdmin->plxPlugins->aPlugins['plxMySearch'];
 		$plxPlugin->setParam('openSearchAdult', $_POST['openSearchAdult'], 'string');
 		$plxPlugin->setParam('openSearchON', $_POST['openSearchON'], 'numeric');
+		}
 		$plxPlugin->setParam('ogON', $_POST['ogON'], 'numeric');
 		$plxPlugin->setParam('twON', $_POST['twON'], 'numeric');
 		$plxPlugin->setParam('ldAS', $_POST['ldAS'], 'string');
 		$plxPlugin->setParam('ldON', $_POST['ldON'], 'numeric');
+			if(version_compare(PLX_VERSION, '5.8.9', "<=")) { 
 		$plxPlugin->setParam('canON', $_POST['canON'], 'numeric');
 		$plxPlugin->setParam('canType', $_POST['canType'], 'numeric');
+			}
         $plxPlugin->setParam('removeCat', $_POST['removeCat'], 'string');
         $plxPlugin->setParam('removeStat', $_POST['removeStat'], 'string');
 		$plxPlugin->setParam('exArtLinkON', $_POST['exArtLinkON'], 'numeric');
@@ -52,20 +58,20 @@
 		if($_POST['humansTxt'] != file_get_contents(PLX_ROOT.'humans.txt')) {
 			file_put_contents(PLX_ROOT.'humans.txt',$_POST['humansTxt']);
 		}	
-		if($_POST['htaccess'] != file_get_contents(PLX_ROOT.'.htaccess')) {
+		if($_POST['htaccess'] !== file_get_contents(PLX_ROOT.'.htaccess')) {
 			file_put_contents(PLX_ROOT.'.htaccess',$_POST['htaccess']);
 		}
 		
-		if($_POST['#onglet-1'])  $tab='#onglet-1';
-		if($_POST['#onglet-2'])  $tab='#onglet-2';
-		if($_POST['#onglet-3'])  $tab='#onglet-3';
-		if($_POST['#onglet-4'])  $tab='#onglet-4';
-		if($_POST['#onglet-5'])  $tab='#onglet-5';
-		if($_POST['#onglet-6'])  $tab='#onglet-6';
-		if($_POST['#onglet-7'])  $tab='#onglet-7';
-		if($_POST['#onglet-8'])  $tab='#onglet-8';
-		if($_POST['#onglet-9'])  $tab='#onglet-9';
-		if($_POST['#onglet-10']) $tab='#onglet-10';
+		if(isset($_POST['#onglet-1']))  $tab='#onglet-1';
+		if(isset($_POST['#onglet-2']))  $tab='#onglet-2';
+		if(isset($_POST['#onglet-3']))  $tab='#onglet-3';
+		if(isset($_POST['#onglet-4']))  $tab='#onglet-4';
+		if(isset($_POST['#onglet-5']))  $tab='#onglet-5';
+		if(isset($_POST['#onglet-6']))  $tab='#onglet-6';
+		if(isset($_POST['#onglet-7']))  $tab='#onglet-7';
+		if(isset($_POST['#onglet-8']))  $tab='#onglet-8';
+		if(isset($_POST['#onglet-9']))  $tab='#onglet-9';
+		if(isset($_POST['#onglet-10'])) $tab='#onglet-10';
 		# add any more need
 		
 		# renvoi sur la page aprés traitement
@@ -264,7 +270,7 @@
 			</fieldset>
 			</div>
 			<!-- opensearch si plugin plxMySearch actif configuré en $_GET -->
-			<?php	if (@class_exists('plxMySearch')&& $plxAdmin->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get' && $plxAdmin->aConf['urlrewriting']) { 
+			<?php	if (class_exists('plxMySearch')&& $plxAdmin->plxPlugins->aPlugins['plxMySearch']->getParam('method') == 'get' && $plxAdmin->aConf['urlrewriting']) { 
 				$plxMotor = plxMotor::getInstance();
 				$mysearch =  $plxAdmin->plxPlugins->aPlugins['plxMySearch'];
 			?>
@@ -349,7 +355,7 @@
 			<h4>HTACCESS</h4>
 			<fieldset>
 					<legend>edition</legend>
-					<textarea name="htaccess" style="width:100%" ><?php if(file_exists(PLX_ROOT.'.htaccess')){echo file_get_contents(PLX_ROOT.'.htaccess');}
+					<textarea name="htaccess" id="htaccess" style="width:100%" ><?php if(file_exists(PLX_ROOT.'.htaccess')){echo file_get_contents(PLX_ROOT.'.htaccess');}
 					else{echo '# aucun fichier .htaccess decouvert à la racine de votre site! ';}?></textarea>
 			</fieldset>
 			<div class="warning blue">
