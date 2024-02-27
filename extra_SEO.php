@@ -47,6 +47,7 @@
 			$this->addHook('plxMotorPreChauffageBegin','plxMotorPreChauffageBegin');
 			$this->addHook('IndexBegin','IndexBegin');
 			$this->addHook('IndexEnd','IndexEnd');
+			$this->addHook('plxFeedConstructLoadPlugins','plxFeedConstructLoadPlugins');
 			
 			
 		}
@@ -689,6 +690,11 @@
 		<?php
 			echo self::END_CODE;
 			return;
+		}
+
+		/* desactivation d'opengraph dans les flux rss si actif */
+		public function plxFeedConstructLoadPlugins() {
+			$this->aParams['ogON']['value'] = 0;
 		}
 		
 		public function missingPNG($text,$size) {  
