@@ -385,14 +385,17 @@
 		<script>
 		let txtB = document.querySelector('[name="humansTxt"]');
 		let txtC = document.querySelector('[name="robotsTxt"]');
+		let txtD = document.querySelector('[name="htaccess"]');
 		let contentB = txtB.innerHTML;	
-		let contentC = txtC.innerHTML;	
+		let contentC = txtC.innerHTML;		
+		let contentD = txtD.innerHTML;	
 		function escapeRegex(string) {	
 			return string.replace(/[\\]/g, '\\$&');
 		} 
 		(function() {
 				txtB.innerHTML=  escapeRegex(contentB);  
 				txtC.innerHTML=  escapeRegex(contentC);  
+				txtD.innerHTML=  escapeRegex(contentD);  
 		}())	
 	</script>
 	<link rel="stylesheet" href="<?= PLX_ROOT.'plugins/'.basename(__DIR__)?>/css/admin.css" media="screen">
