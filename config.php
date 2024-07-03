@@ -44,7 +44,7 @@
 		$plxPlugin->setParam('twON', $_POST['twON'], 'numeric');
 		$plxPlugin->setParam('ldAS', $_POST['ldAS'], 'string');
 		$plxPlugin->setParam('ldON', $_POST['ldON'], 'numeric');
-		if(version_compare(PLX_VERSION, '5.8.9', "<=")) { 
+		if(version_compare(PLX_VERSION, '5.8.14', "<=")) { 
 			$plxPlugin->setParam('canON', $_POST['canON'], 'numeric');
 			$plxPlugin->setParam('canType', $_POST['canType'], 'numeric');
 		}
@@ -102,7 +102,7 @@
 <h3><?php $plxPlugin->lang('L_CONFIG') ?></h3>
 <div id="onglets">
 	<form  id="form_<?= basename(__DIR__) ?>" action="parametres_plugin.php?p=<?= basename(__DIR__) ?>" method="post" class="<?= basename(__DIR__) ?>">
-	<?php  if(version_compare(PLX_VERSION, '5.8.9', "<=")) { ?>
+	<?php  if(version_compare(PLX_VERSION, '5.8.14', "<=")) { ?>
 		<div class="onglet" data-title="URL canonique" class="<?php if($tab== '#onglet-0') echo 'active'; ?>">
 			<h4>canonical</h4>
 			<fieldset>
@@ -385,17 +385,14 @@
 		<script>
 		let txtB = document.querySelector('[name="humansTxt"]');
 		let txtC = document.querySelector('[name="robotsTxt"]');
-		let txtD = document.querySelector('[name="htaccess"]');
 		let contentB = txtB.innerHTML;	
-		let contentC = txtC.innerHTML;		
-		let contentD = txtD.innerHTML;	
+		let contentC = txtC.innerHTML;	
 		function escapeRegex(string) {	
 			return string.replace(/[\\]/g, '\\$&');
 		} 
 		(function() {
 				txtB.innerHTML=  escapeRegex(contentB);  
 				txtC.innerHTML=  escapeRegex(contentC);  
-				txtD.innerHTML=  escapeRegex(contentD);  
 		}())	
 	</script>
 	<link rel="stylesheet" href="<?= PLX_ROOT.'plugins/'.basename(__DIR__)?>/css/admin.css" media="screen">

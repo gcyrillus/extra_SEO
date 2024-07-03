@@ -2,12 +2,13 @@
 <document>
     <title>extra-SEO</title>
     <author>G.Cyrille</author>
-    <version>2.0.5</version>
-	<date>03/03/2024</date>
+    <version>2.0.7</version>
+	<date>02/07/2024</date>
     <site>https://re7net.com</site>
     <description><![CDATA[Outils aidant aux partages et réferencement:
         <br>Ajout de metadonnées dans les pages à l'attention des moteurs de recherches et réseaux sociaux.
-        <br>* ld-json, og, twitter, 
+        <br>* ld-json, open grap , twitter X, 
+        <br>* prend la premiere image d'un article si il n'y a pas d'image d'accroche enregistrée,
         <br>* lien canoniques (désactivé pour la version 5.9.X ) 
         <br>* filtre dans le sitemap : exclusion possible d'une ou plusieurs pages statique ou de catégorie, 
         <br>* exclure de la page les liens vers l'article en cours (linkant sur les commentaires ou dans derniers articles), 

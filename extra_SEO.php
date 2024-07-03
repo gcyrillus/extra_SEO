@@ -1,12 +1,10 @@
 <?php
 	/**
 		* Plugin 	canonique,opengraph,ld-json,....
-		* version   	2.0.1	17/01/2024
+		* version   	2.0.7	02/07/2024
 		* Licence   	GNU General Public License v3.0 
 		* @author	Cyrille Griboval.
 	**/
-	
-	
 	class extra_SEO extends plxPlugin {
 		
 		
@@ -160,7 +158,7 @@
 			echo self::BEGIN_CODE;
 		?>	
 		$output = str_replace('<!--nav prevnext-->', ob_get_clean().'<nav id="<?= __CLASS__ ?>" class="prevNext">'.$plugin->links.'</nav>', $output);
-		if(version_compare(PLX_VERSION, '5.8.9', ">")) $output = str_replace($plxShow->pageUrl(), ob_get_clean().$plxShow->plxMotor->urlRewrite( str_replace($plxShow->plxMotor->racine, '',$plxShow->pageUrl())), $output);
+		if(version_compare(PLX_VERSION, '5.8.14', ">")) $output = str_replace($plxShow->pageUrl(), ob_get_clean().$plxShow->plxMotor->urlRewrite( str_replace($plxShow->plxMotor->racine, '',$plxShow->pageUrl())), $output);
 		<?php
             echo self::END_CODE;		
 		}
@@ -280,6 +278,12 @@
 			if (trim($art['thumbnail'])){
 				$ld.='"image": "'.$plxShow->plxMotor->urlRewrite(trim($art['thumbnail'])).'",
 				';
+			}
+			else { 
+				if (preg_match('~<img[^>]*?src="(.*?)"[^>]+>~', $art['chapo'].$art['content'], $match)) {					
+					$ld.='"image": "'.$plxShow->plxMotor->urlRewrite(trim($match[1])).'",
+				';
+				}
 			}
 			$ld.= '"datePublished": "'.plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00Z').'",
 			"dateModified": "'.plxDate::formatDate($art['date_update'], '#num_year(4)-#num_month-#num_dayT#hour:#minute:00Z') .'",
@@ -516,7 +520,15 @@
 				article:section - string - A high-level section name. E.g. Technology
 				article:tag - string array - Tag words associated with this article.
 			*/
-			
+			if($art['thumbnail'] !=='') {
+				$ogImg = $art['thumbnail'];
+				}
+			else { 
+				if (preg_match('~<img[^>]*?src="(.*?)"[^>]+>~', $art['chapo'].$art['content'], $match)) {					
+					$ogImg = trim($match[1]);
+				}
+			}
+
 			
 			$ogmetas= array(
 			'title'						=>$art['title'],
@@ -525,7 +537,7 @@
 			'article:published_time'	=> plxDate::formatDate($art['date'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00Z'),
 			'article:modifed_time'		=> plxDate::formatDate($art['date_update'],'#num_year(4)-#num_month-#num_dayT#hour:#minute:00Z'),
 			'article:author'			=>$plxMotor->aUsers[$art['author']]['name'],
-			'image'						=>$art['thumbnail'],
+			'image'						=>$ogImg,
 			'url'						=>$plxShow->plxMotor->urlRewrite($plxShow->plxMotor->racine).$art['url'],
 			'image:alt'					=>$art['thumbnail_title'],
 			'locale'					=>$plxShow->defaultLang(false)
@@ -622,6 +634,11 @@
 				if ($plxShow->plxMotor->mode == 'article') {
 					$meta_content = trim($plxShow->plxMotor->plxRecord_arts->f('meta_' . $meta));
 					if($plxShow->plxMotor->plxRecord_arts->f('thumbnail') !='') $img = $plxShow->plxMotor->urlRewrite().trim($plxShow->plxMotor->plxRecord_arts->f('thumbnail'));
+					else {
+					if (preg_match('~<img[^>]*?src="(.*?)"[^>]+>~', $plxShow->plxMotor->plxRecord_arts->f('chapo').$plxShow->plxMotor->plxRecord_arts->f('content'), $match)) {					
+					$img = trim($match[1]);
+				}
+					}
 					if (!empty($meta_content)){  
 						$desc= plxUtils::strCheck($meta_content); 
 					}
@@ -646,13 +663,13 @@
 				'url'			=> $url,
 				'description'	=> $desc,
 				'site'			=> $site,
-				'image'			=> $img
+				'image'			=> $plxShow->plxMotor->urlRewrite($img)
 				);		
 				
 				$twC='';
 				foreach($tweetArray as $metatw => $v) {
 					# on n'affiche pas de meta vide
-					if($v !='') $twC.= '	<meta name="twitter:'.$metatw.'" content="'.str_replace('"', "'",$v). '">'.	PHP_EOL;
+					if($v !='') $twC.= '	<meta name="twitter:'.$metatw.'" content="'.str_replace('"', "'",$v). '"><!-- X -->'.	PHP_EOL;
 				}
 				echo $twC;	
 			}
@@ -695,13 +712,5 @@
 		/* desactivation d'opengraph dans les flux rss si actif */
 		public function plxFeedConstructLoadPlugins() {
 			$this->aParams['ogON']['value'] = 0;
-		}
-		
-		public function missingPNG($text,$size) {  
-			/* faut-il generer des images aux réseaux sociaux et a quelle taille ? */
-		}
-		public function plxMotorDemarrageEnd() {
-			/* y a un truc qu'on a oublié ? */
-		}
-		
-	}	
+		} 	
+	}

@@ -36,7 +36,7 @@ div#plxmnl dt 						{font-weight:bolder;text-decoration:underline;}
 <li>En complément au Sitemap du CMS PluXml (option d'exclusion de certaines catégories ou page statiques)</li>
 <li>Données structurées pour des résultats enrichis</li>
 <li>Les balises META OpenGraph</li>
-<li>Les balises META 'Twitter Card'</li>
+<li>Les balises META 'X - Twitter Card'</li>
 <li>l'edition des fichiers robots.txt et humans.txt</li>
 <li>Déclarer le plugin plxMySearch comme un moteur de recherche pour le navigateur</li>
 </ol>
@@ -47,7 +47,7 @@ div#plxmnl dt 						{font-weight:bolder;text-decoration:underline;}
 <p>Les fichiers robots.txt et humans.txt seront créés et pourront être édités</p>
 
 <h3>Caract&eacute;ristiques</h3>
-<p>Le plugin genere uniquement les données selectionnées et existantes.</p>
+<p>Le plugin genere uniquement les données selectionnées et existantes sauf pour le thumbnail(image d'accroche)) des articles, si celui-ci est manquant, il tente de prendre la premiere image trouvée dans l'article. </p>
 <p>Si les plugin plxMySearch , plxMyBetterUrls ou plxMultilingue sont disponibles et activés, ils seront pris en compte.</p>
 
 
@@ -84,7 +84,7 @@ div#plxmnl dt 						{font-weight:bolder;text-decoration:underline;}
 <li>Exclure une ou plusieurs catégories ou pages statiques du sitemap</li>
 <li>Servir les données structurées</li>
 <li>Servir les META OpenGraph</li>
-<li>Servir les META 'Twitter Card'</li>
+<li>Servir les META 'X - Twitter Card'</li>
 <li>Editer les fichiers robots.txt et humans.txt</li>
 <li>Proposer votre propre moteur de recherche aux navigateurs.</li>
 </ol>	

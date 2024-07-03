@@ -23,7 +23,7 @@ Plugin d'outils d'aide au referencement pour le CMS <a href="https://pluxml.org"
 <li>En complément au Sitemap du CMS PluXml (option d'exclusion de certaines catégories ou page statiques)</li>
 <li>Données structurées pour des résultats enrichis</li>
 <li>Les balises META OpenGraph</li>
-<li>Les balises META 'Twitter Card'</li>
+<li>Les balises META 'X - Twitter Card'</li>
 <li>l'edition des fichiers robots.txt et humans.txt</li>
 <li>Déclarer le plugin plxMySearch comme un moteur de recherche pour le navigateur</li>
 <li>En mode article, retire de la sidebar tous les liens menant vers la page elle-même</li>
@@ -36,7 +36,7 @@ Plugin d'outils d'aide au referencement pour le CMS <a href="https://pluxml.org"
 <p>Les fichiers robots.txt et humans.txt seront créés et pourront être édités</p>
 
 <h3>Caract&eacute;ristiques</h3>
-<p>Le plugin genere uniquement les données selectionnées et existantes.</p>
+<p>Le plugin genere uniquement les données selectionnées et existantes.Si il n'y a pas de thumbnail pour un article, il prend la premiere image dans l'article si il y en a une.</p>
 <p>Si les plugin plxMySearch , plxMyBetterUrls ou plxMultilingue sont disponibles et activés, ils seront pris en compte.</p>
 
 
