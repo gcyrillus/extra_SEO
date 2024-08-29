@@ -1,7 +1,7 @@
 <?php
 	/**
 		* Plugin 	canonique,opengraph,ld-json,....
-		* version   	2.0.7	02/07/2024
+		* version   	2.0.8.1	23/07/2024
 		* Licence   	GNU General Public License v3.0 
 		* @author	Cyrille Griboval.
 	**/
@@ -158,7 +158,7 @@
 			echo self::BEGIN_CODE;
 		?>	
 		$output = str_replace('<!--nav prevnext-->', ob_get_clean().'<nav id="<?= __CLASS__ ?>" class="prevNext">'.$plugin->links.'</nav>', $output);
-		if(version_compare(PLX_VERSION, '5.8.14', ">")) $output = str_replace($plxShow->pageUrl(), ob_get_clean().$plxShow->plxMotor->urlRewrite( str_replace($plxShow->plxMotor->racine, '',$plxShow->pageUrl())), $output);
+		if(version_compare(PLX_VERSION, '5.8.16', ">")) $output = str_replace($plxShow->pageUrl(), ob_get_clean().$plxShow->plxMotor->urlRewrite( str_replace($plxShow->plxMotor->racine, '',$plxShow->pageUrl())), $output);
 		<?php
             echo self::END_CODE;		
 		}
@@ -207,9 +207,9 @@
 		# ld-json : fil d'ariane archives
 		if ($plugin->getParam('ldON') =='1') 	 $plugin->breadcrumbsLD($plxShow->plxMotor->mode, plxDate::formatDate($plxShow->plxMotor->cible, $plxShow->getLang(strtoupper($plxShow->plxMotor->mode)).' #month #num_year(4)') ) ;
 		}
-		if($plxShow->plxMotor->mode =='tags' ) {
-		# Pas d'indexation des pages "mots clés"	
-		// echo PHP_EOL.'	<meta name="robots" content="noindex,nofollow">';
+		if($plxShow->plxMotor->mode =='tags' ) {	
+		# ld-json : fil d'ariane categorie
+		if ($plugin->getParam('ldON') =='1') 	 $plugin->breadcrumbsLD($plxMotor->mode,plxUtils::strCheck($plxShow->plxMotor->cibleName) ) ;		
 		}
 		
 		# ajoute le moteur de recherche du site au navigateur
@@ -315,37 +315,40 @@
 			$breadCrummbsld='';
 			$capture ='';
 			$uri = ltrim($_SERVER['REQUEST_URI'],'/');
+			$crumb='';
 			$subPage='';
-			if (preg_match('/(\/?page[0-9]+)$/',$uri, $capture) && $plxShow->plxMotor->mode !='home') {
-				$pageUri=$uri;
-                $uri = str_replace($capture[1], '', $uri);
-				
-				$subPage=',{															
-			"@type": "ListItem",
-			"position": 3 ,
-			"name": "'. $name .'",
-			"item": "'. $plxShow->plxMotor->aConf['racine']. $pageUri .'"
-			}
-				
-				';
-			}
-			$breadCrummbsld.='
-			<script type="application/ld+json">
-			{
+			$pos='2';
+			$page = '{
 			"@context": "https://schema.org",
 			"@type": "BreadcrumbList",
 			"itemListElement": [{
-			"@type": "ListItem",
-			"position": 1,
-			"name": "'. $plxShow->getLang('HOME') .'",
-			"item": "'. $plxShow->plxMotor->aConf['racine'] .'"
-			},{															
-			"@type": "ListItem",
-			"position": 2 ,
-			"name": "'. $name .'",
-			"item": "'. $plxShow->plxMotor->aConf['racine']. $uri .'"
-			}'.$subPage.'
-			]
+				"@type": "ListItem",
+				"position": 1,
+				"name": "'. $plxShow->getLang('HOME') .'",
+				"item": "'. $plxShow->plxMotor->aConf['racine'] .'"
+				}';
+			if($plxShow->plxMotor->mode !=='home') {
+				$crumb=',{															
+				"@type": "ListItem",
+				"position": 2 ,
+				"name": "'. $name .'",
+				"item": "'. $plxShow->plxMotor->aConf['racine']. $uri .'"
+				}';
+				$pos='3';
+			}
+			if (preg_match('/(\/?page[0-9]+)$/',$uri, $capture)) {
+				$pageUri=$uri;
+                $uri = str_replace($capture[1], '', $uri);				
+				$subPage=',{															
+				"@type": "ListItem",
+				"position": '.$pos.' ,
+				"name": "'. $capture[1] .'",
+				"item": "'. $plxShow->plxMotor->aConf['racine']. $pageUri .'"
+				}';
+			}
+			$breadCrummbsld.='
+			<script type="application/ld+json">
+			'.$page.$crumb.$subPage.']
 			}
 			</script>
 			';
@@ -520,6 +523,7 @@
 				article:section - string - A high-level section name. E.g. Technology
 				article:tag - string array - Tag words associated with this article.
 			*/
+			$ogImg='';// defaut
 			if($art['thumbnail'] !=='') {
 				$ogImg = $art['thumbnail'];
 				}
@@ -636,7 +640,7 @@
 					if($plxShow->plxMotor->plxRecord_arts->f('thumbnail') !='') $img = $plxShow->plxMotor->urlRewrite().trim($plxShow->plxMotor->plxRecord_arts->f('thumbnail'));
 					else {
 					if (preg_match('~<img[^>]*?src="(.*?)"[^>]+>~', $plxShow->plxMotor->plxRecord_arts->f('chapo').$plxShow->plxMotor->plxRecord_arts->f('content'), $match)) {					
-					$img = trim($match[1]);
+					$img = $plxShow->plxMotor->urlRewrite(trim($match[1]));
 				}
 					}
 					if (!empty($meta_content)){  
@@ -663,7 +667,7 @@
 				'url'			=> $url,
 				'description'	=> $desc,
 				'site'			=> $site,
-				'image'			=> $plxShow->plxMotor->urlRewrite($img)
+				'image'			=> $img
 				);		
 				
 				$twC='';
