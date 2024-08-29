@@ -44,7 +44,7 @@
 		$plxPlugin->setParam('twON', $_POST['twON'], 'numeric');
 		$plxPlugin->setParam('ldAS', $_POST['ldAS'], 'string');
 		$plxPlugin->setParam('ldON', $_POST['ldON'], 'numeric');
-		if(version_compare(PLX_VERSION, '5.8.14', "<=")) { 
+		if(version_compare(PLX_VERSION, '5.9.0', "<")) { 
 			$plxPlugin->setParam('canON', $_POST['canON'], 'numeric');
 			$plxPlugin->setParam('canType', $_POST['canType'], 'numeric');
 		}
@@ -102,7 +102,7 @@
 <h3><?php $plxPlugin->lang('L_CONFIG') ?></h3>
 <div id="onglets">
 	<form  id="form_<?= basename(__DIR__) ?>" action="parametres_plugin.php?p=<?= basename(__DIR__) ?>" method="post" class="<?= basename(__DIR__) ?>">
-	<?php  if(version_compare(PLX_VERSION, '5.8.14', "<=")) { ?>
+	<?php  if(version_compare(PLX_VERSION, '5.9.0', "<")) { ?>
 		<div class="onglet" data-title="URL canonique" class="<?php if($tab== '#onglet-0') echo 'active'; ?>">
 			<h4>canonical</h4>
 			<fieldset>

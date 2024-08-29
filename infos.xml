@@ -2,8 +2,8 @@
 <document>
     <title>extra-SEO</title>
     <author>G.Cyrille</author>
-    <version>2.0.8.2</version>
-	<date>28/08/2024</date>
+    <version>2.0.9.0</version>
+	<date>29/08/2024</date>
     <site>https://re7net.com</site>
     <description><![CDATA[Outils aidant aux partages et réferencement:
         <br>Ajout de metadonnées dans les pages à l'attention des moteurs de recherches et réseaux sociaux.
@@ -15,7 +15,7 @@
         <br>* ajout liens article suivant pécédent en pied de chaque article, 
         <br>* redirection URL inconnues en 404 au lieu de HOME et filtrage possible.. 
         <br>* edition des fichiers humans.txt, robots.txt et .htaccess 
-        <br>Compatible avec la version 5.7 -  5.8.16 de Pluxml
+        <br>Compatible avec la version 5.7 de Pluxml
         <br>PluXml 5.9.X : URL canonique et du sitemap basculent automatiquement sur les url réécrites si urlRwriting activé.]]></description>
     <scope></scope>
 </document>
